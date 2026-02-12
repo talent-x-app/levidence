@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L’Évidence – Une soirée pour nous</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+    --bg-1: #0f1a13;
+    --bg-2: #1f2d22;
+    --bg-3: #0b1410;
+    --ink: #f6efe6;
+    --muted: #cdbba7;
+    --accent: #e4b04f;
+    --accent-2: #d46a4a;
+    --card: rgba(255, 255, 255, 0.06);
+    --card-strong: rgba(255, 255, 255, 0.12);
+}
+
+body {
+    font-family: 'Manrope', sans-serif;
+    background: radial-gradient(1200px circle at 10% 10%, #1d2a1f 0%, transparent 55%),
+                radial-gradient(900px circle at 90% 20%, #283828 0%, transparent 60%),
+                linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+    background-size: 180% 180%;
+    animation: gradientMove 18s ease infinite;
+    color: var(--ink);
+    overflow-x: hidden;
+    position: relative;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+        120deg,
+        rgba(255, 255, 255, 0.03) 0px,
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 1px,
+        transparent 8px
+    );
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes gradientMove {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+}
+
+/* Floating Hearts */
+
+.heart {
+    position: fixed;
+    bottom: -50px;
+    font-size: 18px;
+    color: rgba(228, 176, 79, 0.25);
+    animation: floatUp linear infinite;
+    z-index: 0;
+    filter: drop-shadow(0 0 10px rgba(228, 176, 79, 0.15));
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-110vh);
+        opacity: 0;
+    }
+}
+
+/* INTRO */
+
+#intro {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: radial-gradient(circle at center, #223125, #0a120e);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    text-align: center;
+    transition: opacity 1.5s ease;
+}
+
+#intro h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2em;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+#intro p {
+    max-width: 600px;
+    margin-bottom: 30px;
+}
+
+#enterBtn {
+    padding: 15px 40px;
+    border: none;
+    border-radius: 40px;
+    background: linear-gradient(45deg, var(--accent), var(--accent-2));
+    color: #1a1209;
+    font-size: 1em;
+    cursor: pointer;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#enterBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* MENU */
+
+header {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+    z-index: 1;
+}
+
+h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3em;
+    letter-spacing: 1px;
+}
+
+header p {
+    color: var(--muted);
+    margin-top: 10px;
+    font-weight: 300;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+}
+
+.section {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 20px;
+    background: var(--card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    position: relative;
+    z-index: 1;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.section:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+}
+
+h2 {
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: 20px;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+}
+
+label {
+    display: block;
+    margin: 12px 0;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+label:hover {
+    background: rgba(228, 176, 79, 0.12);
+    border-color: rgba(228, 176, 79, 0.25);
+    transform: translateX(5px);
+}
+
+input[type="radio"] {
+    accent-color: var(--accent);
+    margin-right: 10px;
+}
+
+button {
+    display: block;
+    margin: 50px auto;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 40px;
+    background: linear-gradient(45deg, var(--accent), var(--accent-2));
+    color: #1a1209;
+    font-size: 1em;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+#cinemaOverlay {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: black;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+    z-index: 998;
+}
+
+#result {
+    max-width: 850px;
+    margin: 40px auto 80px;
+    padding: 30px;
+    border-radius: 20px;
+    background: var(--card-strong);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 1.5s ease;
+    position: relative;
+    z-index: 1;
+}
+
+#result.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#finalMessage {
+    margin-top: 20px;
+    font-weight: 600;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.8s ease;
+}
+
+#finalMessage.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
+</head>
+
+<body>
+
+<!-- Hearts -->
+<script>
+function createHearts() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (6 + Math.random() * 6) + "s";
+    heart.style.fontSize = (12 + Math.random() * 15) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 12000);
+}
+
+setInterval(createHearts, 800);
+</script>
+
+<!-- INTRO -->
+<div id="intro">
+    <h1>L’Évidence</h1>
+    <p>Le meilleur dîner de notre vie ?</p>
+    <button id="enterBtn" onclick="enterSite()">Entrer</button>
+</div>
+
+<div id="cinemaOverlay"></div>
+
+<main class="content">
+
+<header>
+    <h1>Restaurant L’Évidence</h1>
+    <p>Chef : Uma</p>
+</header>
+
+<form id="menuForm">
+
+<div class="section reveal">
+<h2>Mise en bouche</h2>
+<label><input type="radio" name="mise" value="Le moment précis où tout a commencé à devenir évident entre nous.">Le moment précis où tout a commencé à devenir évident entre nous.</label>
+<label><input type="radio" name="mise" value="Ce que nous admirons le plus l’un chez l’autre.">Ce que nous admirons le plus l’un chez l’autre.</label>
+<label><input type="radio" name="mise" value="Le souvenir le plus drôle que nous avons vécu ensemble.">Le souvenir le plus drôle que nous avons vécu ensemble.</label>
+<label><input type="radio" name="mise" value="Une vérité que nous n’avons jamais formulée à voix haute.">Une vérité que nous n’avons jamais formulée à voix haute.</label>
+<label><input type="radio" name="mise" value="Ce que notre rencontre nous a appris sur nous-mêmes.">Ce que notre rencontre nous a appris sur nous-mêmes.</label>
+</div>
+
+<div class="section reveal">
+<h2>Entrée</h2>
+<label><input type="radio" name="entree" value="Ce qui nous a donné envie de rester et de construire.">Ce qui nous a donné envie de rester et de construire.</label>
+<label><input type="radio" name="entree" value="Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.">Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.</label>
+<label><input type="radio" name="entree" value="Le type de couple que nous voulons devenir.">Le type de couple que nous voulons devenir.</label>
+<label><input type="radio" name="entree" value="Si notre histoire était un film, quel serait son titre ?">Si notre histoire était un film, quel serait son titre ?</label>
+<label><input type="radio" name="entree" value="Ce que nous nous apportons mutuellement et qui nous fait grandir.">Ce que nous nous apportons mutuellement et qui nous fait grandir.</label>
+</div>
+
+<div class="section reveal">
+<h2>Plat</h2>
+<label><input type="radio" name="plat" value="Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.">Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.</label>
+<label><input type="radio" name="plat" value="Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.">Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.</label>
+<label><input type="radio" name="plat" value="Les valeurs que nous voulons transmettre autour de nous.">Les valeurs que nous voulons transmettre autour de nous.</label>
+<label><input type="radio" name="plat" value="Les règles d’or qui protégeront notre amour dans le temps.">Les règles d’or qui protégeront notre amour dans le temps.</label>
+<label><input type="radio" name="plat" value="La manière dont nous voulons gérer les conflits et évoluer ensemble.">La manière dont nous voulons gérer les conflits et évoluer ensemble.</label>
+</div>
+
+<div class="section reveal">
+<h2>Dessert</h2>
+<label><input type="radio" name="dessert" value="Notre vie dans cinq ans, racontée comme si elle existait déjà.">Notre vie dans cinq ans, racontée comme si elle existait déjà.</label>
+<label><input type="radio" name="dessert" value="Le rêve le plus fou que nous pourrions réaliser ensemble.">Le rêve le plus fou que nous pourrions réaliser ensemble.</label>
+<label><input type="radio" name="dessert" value="La maison idéale, la ville et l’ambiance de notre futur quotidien.">La maison idéale, la ville et l’ambiance de notre futur quotidien.</label>
+<label><input type="radio" name="dessert" value="Le pacte symbolique que nous décidons de sceller ce soir.">Le pacte symbolique que nous décidons de sceller ce soir.</label>
+<label><input type="radio" name="dessert" value="La promesse que nous choisissons de nous faire pour l’année à venir.">La promesse que nous choisissons de nous faire pour l’année à venir.</label>
+</div>
+
+<button type="button" onclick="generateMenu()">Valider notre menu</button>
+</form>
+
+<div id="result"></div>
+
+</main>
+
+<script>
+function enterSite() {
+    document.getElementById("intro").classList.add("hidden");
+}
+
+function generateMenu() {
+    const mise = document.querySelector('input[name="mise"]:checked');
+    const entree = document.querySelector('input[name="entree"]:checked');
+    const plat = document.querySelector('input[name="plat"]:checked');
+    const dessert = document.querySelector('input[name="dessert"]:checked');
+
+    if (!mise || !entree || !plat || !dessert) {
+        alert("Merci de choisir une option dans chaque catégorie.");
+        return;
+    }
+
+    const overlay = document.getElementById("cinemaOverlay");
+    overlay.style.opacity = "1";
+
+    setTimeout(() => {
+        overlay.style.opacity = "0";
+
+        const result = document.getElementById("result");
+        result.innerHTML = `
+            <h2>Notre Menu</h2>
+            <p><strong>Mise en bouche :</strong> ${mise.value}</p>
+            <p><strong>Entrée :</strong> ${entree.value}</p>
+            <p><strong>Plat :</strong> ${plat.value}</p>
+            <p><strong>Dessert :</strong> ${dessert.value}</p>
+            <p>Rendez-vous le 14 février à 21h.</p>
+            <div id="finalMessage">Et ce n’est que le début de notre histoire.</div>
+        `;
+        result.classList.add("show");
+
+        window.scrollTo({ top: result.offsetTop - 100, behavior: 'smooth' });
+
+        setTimeout(() => {
+            document.getElementById("finalMessage").classList.add("visible");
+        }, 2000);
+
+    }, 1500);
+}
+
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.2 });
+
+document.querySelectorAll(".reveal").forEach((section) => {
+    revealObserver.observe(section);
+});
+</script>
+
+
+</body>
+
+
+</html>
