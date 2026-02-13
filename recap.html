@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L’Évidence – Notre Menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --bg-1: #130d1b;
+    --bg-2: #241433;
+    --bg-3: #0f0916;
+    --ink: #f8f3ff;
+    --muted: #cabbe0;
+    --accent: #f1c27d;
+    --accent-2: #d88ab6;
+    --card: rgba(255, 255, 255, 0.09);
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Outfit', sans-serif;
+    color: var(--ink);
+    background: radial-gradient(1200px circle at 10% 10%, #2d1d3e 0%, transparent 55%),
+                radial-gradient(900px circle at 90% 20%, #3a2140 0%, transparent 60%),
+                linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+    background-size: 180% 180%;
+    animation: gradientMove 18s ease infinite;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.card {
+    width: min(860px, 100%);
+    background: var(--card);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 22px;
+    padding: 38px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: var(--muted);
+    margin-bottom: 30px;
+}
+
+.menu-item {
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+.menu-item strong {
+    color: var(--accent);
+}
+
+.footer {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.final-message {
+    color: #f3b6d8;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: revealMessage 1.6s ease 0.3s forwards;
+}
+
+@keyframes revealMessage {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.footer-actions {
+    margin-top: 16px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+a.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #1a1209;
+    background: linear-gradient(45deg, var(--accent), var(--accent-2));
+}
+</style>
+</head>
+<body>
+<div class="card" id="recapCard"></div>
+
+<script>
+const recap = sessionStorage.getItem("menuRecap");
+const recapCard = document.getElementById("recapCard");
+
+if (!recap) {
+    recapCard.innerHTML = `
+        <h1>Notre Menu</h1>
+        <p class="subtitle">Aucune sélection trouvée pour le moment.</p>
+        <a class="btn" href="index.html">Retour au menu</a>
+    `;
+} else {
+    const data = JSON.parse(recap);
+    recapCard.innerHTML = `
+        <h1>Notre Menu</h1>
+        <p class="subtitle">Rendez-vous le 14 février à 21h.</p>
+        <p class="menu-item"><strong>Mise en bouche :</strong> ${data.mise}</p>
+        <p class="menu-item"><strong>Entrée :</strong> ${data.entree}</p>
+        <p class="menu-item"><strong>Plat :</strong> ${data.plat}</p>
+        <p class="menu-item"><strong>Dessert :</strong> ${data.dessert}</p>
+        <div class="footer">
+            <p class="final-message">Et ce n’est que le début de notre histoire...</p>
+            <div class="footer-actions">
+                <a class="btn" href="index.html">Changer de menu</a>
+            </div>
+        </div>
+    `;
+}
+</script>
+</body>
+</html>

@@ -5,27 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>L’Évidence – Une soirée pour nous</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 
 :root {
-    --bg-1: #0f1a13;
-    --bg-2: #1f2d22;
-    --bg-3: #0b1410;
-    --ink: #f6efe6;
-    --muted: #cdbba7;
-    --accent: #e4b04f;
-    --accent-2: #d46a4a;
+    --bg-1: #130d1b;
+    --bg-2: #241433;
+    --bg-3: #0f0916;
+    --ink: #f8f3ff;
+    --muted: #cabbe0;
+    --accent: #f1c27d;
+    --accent-2: #d88ab6;
     --card: rgba(255, 255, 255, 0.06);
     --card-strong: rgba(255, 255, 255, 0.12);
 }
 
 body {
-    font-family: 'Manrope', sans-serif;
-    background: radial-gradient(1200px circle at 10% 10%, #1d2a1f 0%, transparent 55%),
-                radial-gradient(900px circle at 90% 20%, #283828 0%, transparent 60%),
+    font-family: 'Outfit', sans-serif;
+    background: radial-gradient(1200px circle at 10% 10%, #2d1d3e 0%, transparent 55%),
+                radial-gradient(900px circle at 90% 20%, #3a2140 0%, transparent 60%),
                 linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
     background-size: 180% 180%;
     animation: gradientMove 18s ease infinite;
@@ -62,10 +62,10 @@ body::before {
     position: fixed;
     bottom: -50px;
     font-size: 18px;
-    color: rgba(228, 176, 79, 0.25);
+    color: rgba(241, 194, 125, 0.27);
     animation: floatUp linear infinite;
     z-index: 0;
-    filter: drop-shadow(0 0 10px rgba(228, 176, 79, 0.15));
+    filter: drop-shadow(0 0 10px rgba(241, 194, 125, 0.2));
 }
 
 @keyframes floatUp {
@@ -81,7 +81,7 @@ body::before {
     position: fixed;
     width: 100%;
     height: 100vh;
-    background: radial-gradient(circle at center, #223125, #0a120e);
+    background: radial-gradient(circle at center, #2b1b3a, #0e0817);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -92,7 +92,7 @@ body::before {
 }
 
 #intro h1 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 3.2em;
     margin-bottom: 20px;
     letter-spacing: 1px;
@@ -135,7 +135,7 @@ header {
 }
 
 h1 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     font-size: 3em;
     letter-spacing: 1px;
 }
@@ -171,7 +171,7 @@ header p {
 }
 
 h2 {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Playfair Display', serif;
     margin-bottom: 20px;
     color: var(--accent);
     letter-spacing: 0.5px;
@@ -214,6 +214,13 @@ button {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
 button:hover {
     transform: translateY(-2px);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
@@ -230,39 +237,6 @@ button:hover {
     z-index: 998;
 }
 
-#result {
-    max-width: 850px;
-    margin: 40px auto 80px;
-    padding: 30px;
-    border-radius: 20px;
-    background: var(--card-strong);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    opacity: 0;
-    transform: scale(0.9);
-    transition: all 1.5s ease;
-    position: relative;
-    z-index: 1;
-}
-
-#result.show {
-    opacity: 1;
-    transform: scale(1);
-}
-
-#finalMessage {
-    margin-top: 20px;
-    font-weight: 600;
-    color: var(--accent);
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.8s ease;
-}
-
-#finalMessage.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 .reveal {
     opacity: 0;
     transform: translateY(24px);
@@ -272,6 +246,97 @@ button:hover {
 .reveal.is-visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+.preview-item {
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.preview-item strong {
+    color: var(--accent);
+}
+
+.placeholder {
+    color: var(--muted);
+    font-style: italic;
+}
+
+.wizard-shell {
+    max-width: 900px;
+}
+
+.step-meta {
+    margin-bottom: 20px;
+}
+
+#stepCounter {
+    color: var(--muted);
+    margin-bottom: 10px;
+}
+
+.progress-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+#progressBar {
+    height: 100%;
+    width: 25%;
+    background: linear-gradient(45deg, var(--accent), var(--accent-2));
+    transition: width 0.35s ease;
+}
+
+.menu-step {
+    display: none;
+    animation: fadeStep 0.4s ease;
+}
+
+.menu-step.active {
+    display: block;
+}
+
+@keyframes fadeStep {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.wizard-nav {
+    margin-top: 30px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.wizard-nav button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    min-width: 180px;
+    padding: 13px 26px;
+    letter-spacing: 0.2px;
+}
+
+@media (max-width: 680px) {
+    .wizard-nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .wizard-nav button {
+        width: 100%;
+        max-width: 360px;
+    }
+}
+
+.is-hidden {
+    display: none !important;
 }
 </style>
 </head>
@@ -315,7 +380,13 @@ setInterval(createHearts, 800);
 
 <form id="menuForm">
 
-<div class="section reveal">
+<div class="section reveal wizard-shell">
+<div class="step-meta">
+<p id="stepCounter">Étape 1 sur 4 • Mise en bouche</p>
+<div class="progress-track"><div id="progressBar"></div></div>
+</div>
+
+<div class="menu-step active" data-step="0" data-field="mise">
 <h2>Mise en bouche</h2>
 <label><input type="radio" name="mise" value="Le moment précis où tout a commencé à devenir évident entre nous.">Le moment précis où tout a commencé à devenir évident entre nous.</label>
 <label><input type="radio" name="mise" value="Ce que nous admirons le plus l’un chez l’autre.">Ce que nous admirons le plus l’un chez l’autre.</label>
@@ -324,7 +395,7 @@ setInterval(createHearts, 800);
 <label><input type="radio" name="mise" value="Ce que notre rencontre nous a appris sur nous-mêmes.">Ce que notre rencontre nous a appris sur nous-mêmes.</label>
 </div>
 
-<div class="section reveal">
+<div class="menu-step" data-step="1" data-field="entree">
 <h2>Entrée</h2>
 <label><input type="radio" name="entree" value="Ce qui nous a donné envie de rester et de construire.">Ce qui nous a donné envie de rester et de construire.</label>
 <label><input type="radio" name="entree" value="Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.">Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.</label>
@@ -333,7 +404,7 @@ setInterval(createHearts, 800);
 <label><input type="radio" name="entree" value="Ce que nous nous apportons mutuellement et qui nous fait grandir.">Ce que nous nous apportons mutuellement et qui nous fait grandir.</label>
 </div>
 
-<div class="section reveal">
+<div class="menu-step" data-step="2" data-field="plat">
 <h2>Plat</h2>
 <label><input type="radio" name="plat" value="Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.">Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.</label>
 <label><input type="radio" name="plat" value="Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.">Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.</label>
@@ -342,7 +413,7 @@ setInterval(createHearts, 800);
 <label><input type="radio" name="plat" value="La manière dont nous voulons gérer les conflits et évoluer ensemble.">La manière dont nous voulons gérer les conflits et évoluer ensemble.</label>
 </div>
 
-<div class="section reveal">
+<div class="menu-step" data-step="3" data-field="dessert">
 <h2>Dessert</h2>
 <label><input type="radio" name="dessert" value="Notre vie dans cinq ans, racontée comme si elle existait déjà.">Notre vie dans cinq ans, racontée comme si elle existait déjà.</label>
 <label><input type="radio" name="dessert" value="Le rêve le plus fou que nous pourrions réaliser ensemble.">Le rêve le plus fou que nous pourrions réaliser ensemble.</label>
@@ -351,16 +422,140 @@ setInterval(createHearts, 800);
 <label><input type="radio" name="dessert" value="La promesse que nous choisissons de nous faire pour l’année à venir.">La promesse que nous choisissons de nous faire pour l’année à venir.</label>
 </div>
 
-<button type="button" onclick="generateMenu()">Valider notre menu</button>
-</form>
+<div class="wizard-nav">
+<button id="prevBtn" type="button">Précédent</button>
+<button id="nextBtn" type="button">Étape suivante</button>
+<button id="validateBtn" type="button" onclick="generateMenu()" class="is-hidden" disabled>Valider notre menu</button>
+</div>
+</div>
 
-<div id="result"></div>
+<div class="section reveal" id="liveMenuSection">
+<h2>Notre menu en direct</h2>
+<p class="preview-item"><strong>Mise en bouche :</strong> <span id="preview-mise" class="placeholder">Aucune sélection</span></p>
+<p class="preview-item"><strong>Entrée :</strong> <span id="preview-entree" class="placeholder">Aucune sélection</span></p>
+<p class="preview-item"><strong>Plat :</strong> <span id="preview-plat" class="placeholder">Aucune sélection</span></p>
+<p class="preview-item"><strong>Dessert :</strong> <span id="preview-dessert" class="placeholder">Aucune sélection</span></p>
+</div>
+</form>
 
 </main>
 
 <script>
+const STORAGE_KEY = "menuDraft";
+const STEP_FIELDS = ["mise", "entree", "plat", "dessert"];
+const STEP_LABELS = ["Mise en bouche", "Entrée", "Plat", "Dessert"];
+let currentStepIndex = 0;
+
 function enterSite() {
     document.getElementById("intro").classList.add("hidden");
+}
+
+function getCurrentSelections() {
+    return {
+        mise: document.querySelector('input[name="mise"]:checked')?.value || "",
+        entree: document.querySelector('input[name="entree"]:checked')?.value || "",
+        plat: document.querySelector('input[name="plat"]:checked')?.value || "",
+        dessert: document.querySelector('input[name="dessert"]:checked')?.value || ""
+    };
+}
+
+function setPreviewValue(id, value) {
+    const element = document.getElementById(id);
+    if (!element) return;
+
+    if (value) {
+        element.textContent = value;
+        element.classList.remove("placeholder");
+    } else {
+        element.textContent = "Aucune sélection";
+        element.classList.add("placeholder");
+    }
+}
+
+function updateLiveMenuPreview(data) {
+    setPreviewValue("preview-mise", data.mise);
+    setPreviewValue("preview-entree", data.entree);
+    setPreviewValue("preview-plat", data.plat);
+    setPreviewValue("preview-dessert", data.dessert);
+}
+
+function updateValidateButtonState(data) {
+    const validateButton = document.getElementById("validateBtn");
+    if (!validateButton) return;
+
+    const isComplete = Boolean(data.mise && data.entree && data.plat && data.dessert);
+    validateButton.disabled = !isComplete;
+}
+
+function isStepComplete(stepIndex) {
+    const field = STEP_FIELDS[stepIndex];
+    return Boolean(document.querySelector(`input[name="${field}"]:checked`));
+}
+
+function updateWizardNavigation() {
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const validateBtn = document.getElementById("validateBtn");
+    const stepCounter = document.getElementById("stepCounter");
+    const progressBar = document.getElementById("progressBar");
+    const selections = getCurrentSelections();
+
+    prevBtn.disabled = currentStepIndex === 0;
+    nextBtn.disabled = !isStepComplete(currentStepIndex);
+    nextBtn.classList.toggle("is-hidden", currentStepIndex === STEP_FIELDS.length - 1);
+    validateBtn.classList.toggle("is-hidden", currentStepIndex !== STEP_FIELDS.length - 1);
+    updateValidateButtonState(selections);
+
+    stepCounter.textContent = `Étape ${currentStepIndex + 1} sur ${STEP_FIELDS.length} • ${STEP_LABELS[currentStepIndex]}`;
+    progressBar.style.width = `${((currentStepIndex + 1) / STEP_FIELDS.length) * 100}%`;
+}
+
+function showStep(stepIndex) {
+    currentStepIndex = Math.max(0, Math.min(stepIndex, STEP_FIELDS.length - 1));
+    document.querySelectorAll(".menu-step").forEach((step, index) => {
+        step.classList.toggle("active", index === currentStepIndex);
+    });
+    updateWizardNavigation();
+}
+
+function saveDraftSelections() {
+    const selections = getCurrentSelections();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(selections));
+    updateLiveMenuPreview(selections);
+    updateValidateButtonState(selections);
+}
+
+function restoreDraftSelections() {
+    const draft = localStorage.getItem(STORAGE_KEY);
+    if (!draft) {
+        const selections = getCurrentSelections();
+        updateLiveMenuPreview(selections);
+        updateValidateButtonState(selections);
+        return;
+    }
+
+    const parsed = JSON.parse(draft);
+    ["mise", "entree", "plat", "dessert"].forEach((field) => {
+        if (!parsed[field]) return;
+        const input = document.querySelector(`input[name="${field}"][value="${CSS.escape(parsed[field])}"]`);
+        if (input) input.checked = true;
+    });
+
+    const selections = getCurrentSelections();
+    updateLiveMenuPreview(selections);
+    updateValidateButtonState(selections);
+}
+
+function goToNextStep() {
+    if (!isStepComplete(currentStepIndex)) {
+        alert("Choisis une option pour passer à l’étape suivante.");
+        return;
+    }
+    showStep(currentStepIndex + 1);
+}
+
+function goToPreviousStep() {
+    showStep(currentStepIndex - 1);
 }
 
 function generateMenu() {
@@ -378,25 +573,13 @@ function generateMenu() {
     overlay.style.opacity = "1";
 
     setTimeout(() => {
-        overlay.style.opacity = "0";
-
-        const result = document.getElementById("result");
-        result.innerHTML = `
-            <h2>Notre Menu</h2>
-            <p><strong>Mise en bouche :</strong> ${mise.value}</p>
-            <p><strong>Entrée :</strong> ${entree.value}</p>
-            <p><strong>Plat :</strong> ${plat.value}</p>
-            <p><strong>Dessert :</strong> ${dessert.value}</p>
-            <p>Rendez-vous le 14 février à 21h.</p>
-            <div id="finalMessage">Et ce n’est que le début de notre histoire.</div>
-        `;
-        result.classList.add("show");
-
-        window.scrollTo({ top: result.offsetTop - 100, behavior: 'smooth' });
-
-        setTimeout(() => {
-            document.getElementById("finalMessage").classList.add("visible");
-        }, 2000);
+        sessionStorage.setItem("menuRecap", JSON.stringify({
+            mise: mise.value,
+            entree: entree.value,
+            plat: plat.value,
+            dessert: dessert.value
+        }));
+        window.location.href = "recap.html";
 
     }, 1500);
 }
@@ -413,6 +596,27 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll(".reveal").forEach((section) => {
     revealObserver.observe(section);
 });
+
+document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+    radio.addEventListener("change", () => {
+        saveDraftSelections();
+
+        const selectedStep = STEP_FIELDS.indexOf(radio.name);
+        if (selectedStep === currentStepIndex && currentStepIndex < STEP_FIELDS.length - 1) {
+            setTimeout(() => {
+                showStep(currentStepIndex + 1);
+            }, 220);
+        }
+    });
+});
+
+restoreDraftSelections();
+
+const firstIncompleteStep = STEP_FIELDS.findIndex((_, index) => !isStepComplete(index));
+showStep(firstIncompleteStep === -1 ? STEP_FIELDS.length - 1 : firstIncompleteStep);
+
+document.getElementById("nextBtn").addEventListener("click", goToNextStep);
+document.getElementById("prevBtn").addEventListener("click", goToPreviousStep);
 </script>
 
 
