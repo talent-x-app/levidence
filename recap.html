@@ -117,8 +117,17 @@ a.btn {
 <div class="card" id="recapCard"></div>
 
 <script>
-const recap = sessionStorage.getItem("menuRecap");
+const recapRaw = localStorage.getItem("menuRecap") || sessionStorage.getItem("menuRecap");
 const recapCard = document.getElementById("recapCard");
+let recap = null;
+
+if (recapRaw) {
+    try {
+        recap = JSON.parse(recapRaw);
+    } catch {
+        recap = null;
+    }
+}
 
 if (!recap) {
     recapCard.innerHTML = `
@@ -127,7 +136,7 @@ if (!recap) {
         <a class="btn" href="index.html">Retour au menu</a>
     `;
 } else {
-    const data = JSON.parse(recap);
+    const data = recap;
     recapCard.innerHTML = `
         <h1>Notre Menu</h1>
         <p class="subtitle">Rendez-vous le 14 février à 21h.</p>

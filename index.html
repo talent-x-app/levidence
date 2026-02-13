@@ -442,6 +442,9 @@ setInterval(createHearts, 800);
 
 <script>
 const STORAGE_KEY = "menuDraft";
+const RECAP_KEY = "menuRecap";
+const GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyTdT2dGBpobJz1DpD9mBb740nciu_4CXrFJZFN29DfsepYOvMycjREln5NnvWAFzR7/exec";
+const GOOGLE_SHEETS_DEFAULT_STATUS = "nouvelle";
 const STEP_FIELDS = ["mise", "entree", "plat", "dessert"];
 const STEP_LABELS = ["Mise en bouche", "Entrée", "Plat", "Dessert"];
 let currentStepIndex = 0;
@@ -558,6 +561,36 @@ function goToPreviousStep() {
     showStep(currentStepIndex - 1);
 }
 
+async function sendToGoogleSheets(recapData) {
+    if (!GOOGLE_SHEETS_WEBHOOK_URL) return;
+
+    const payload = {
+        ...recapData,
+        submittedAt: new Date().toISOString(),
+        page: window.location.href,
+        statut: GOOGLE_SHEETS_DEFAULT_STATUS
+    };
+
+    try {
+        const request = fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload),
+            keepalive: true
+        });
+
+        await Promise.race([
+            request,
+            new Promise((resolve) => setTimeout(resolve, 1200))
+        ]);
+    } catch (error) {
+        console.error("Envoi Google Sheets échoué:", error);
+    }
+}
+
 function generateMenu() {
     const mise = document.querySelector('input[name="mise"]:checked');
     const entree = document.querySelector('input[name="entree"]:checked');
@@ -572,13 +605,17 @@ function generateMenu() {
     const overlay = document.getElementById("cinemaOverlay");
     overlay.style.opacity = "1";
 
-    setTimeout(() => {
-        sessionStorage.setItem("menuRecap", JSON.stringify({
+    setTimeout(async () => {
+        const recapData = {
             mise: mise.value,
             entree: entree.value,
             plat: plat.value,
             dessert: dessert.value
-        }));
+        };
+
+        await sendToGoogleSheets(recapData);
+        localStorage.setItem(RECAP_KEY, JSON.stringify(recapData));
+        sessionStorage.setItem(RECAP_KEY, JSON.stringify(recapData));
         window.location.href = "recap.html";
 
     }, 1500);
