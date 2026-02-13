@@ -3,678 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L’Évidence – Une soirée pour nous</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
-
+<title>L’Évidence — Connexion</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --bg-1: #130d1b;
-    --bg-2: #241433;
-    --bg-3: #0f0916;
-    --ink: #f8f3ff;
-    --muted: #cabbe0;
-    --accent: #f1c27d;
-    --accent-2: #d88ab6;
-    --card: rgba(255, 255, 255, 0.06);
-    --card-strong: rgba(255, 255, 255, 0.12);
+  --bg-1: #130d1b;
+  --bg-2: #241433;
+  --bg-3: #0f0916;
+  --ink: #f8f3ff;
+  --muted: #cabbe0;
+  --accent: #f1c27d;
+  --accent-2: #d88ab6;
+  --card: rgba(255, 255, 255, 0.08);
 }
 
 body {
-    font-family: 'Outfit', sans-serif;
-    background: radial-gradient(1200px circle at 10% 10%, #2d1d3e 0%, transparent 55%),
-                radial-gradient(900px circle at 90% 20%, #3a2140 0%, transparent 60%),
-                linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
-    background-size: 180% 180%;
-    animation: gradientMove 18s ease infinite;
-    color: var(--ink);
-    overflow-x: hidden;
-    position: relative;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: repeating-linear-gradient(
-        120deg,
-        rgba(255, 255, 255, 0.03) 0px,
-        rgba(255, 255, 255, 0.03) 1px,
-        transparent 1px,
-        transparent 8px
-    );
-    opacity: 0.35;
-    pointer-events: none;
-    z-index: 0;
+  min-height: 100vh;
+  font-family: 'Outfit', sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1200px circle at 10% 10%, #2d1d3e 0%, transparent 55%),
+    radial-gradient(900px circle at 90% 20%, #3a2140 0%, transparent 60%),
+    linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+  background-size: 180% 180%;
+  animation: gradientMove 18s ease infinite;
+  display: grid;
+  place-items: center;
+  padding: 24px;
 }
 
 @keyframes gradientMove {
-    0% {background-position:0% 50%;}
-    50% {background-position:100% 50%;}
-    100% {background-position:0% 50%;}
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* Floating Hearts */
-
-.heart {
-    position: fixed;
-    bottom: -50px;
-    font-size: 18px;
-    color: rgba(241, 194, 125, 0.27);
-    animation: floatUp linear infinite;
-    z-index: 0;
-    filter: drop-shadow(0 0 10px rgba(241, 194, 125, 0.2));
+.card {
+  width: min(520px, 100%);
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 24px;
+  padding: 34px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
 }
 
-@keyframes floatUp {
-    to {
-        transform: translateY(-110vh);
-        opacity: 0;
-    }
-}
-
-/* INTRO */
-
-#intro {
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    background: radial-gradient(circle at center, #2b1b3a, #0e0817);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-    text-align: center;
-    transition: opacity 1.5s ease;
-}
-
-#intro h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.2em;
-    margin-bottom: 20px;
-    letter-spacing: 1px;
-}
-
-#intro p {
-    max-width: 600px;
-    margin-bottom: 30px;
-}
-
-#enterBtn {
-    padding: 15px 40px;
-    border: none;
-    border-radius: 40px;
-    background: linear-gradient(45deg, var(--accent), var(--accent-2));
-    color: #1a1209;
-    font-size: 1em;
-    cursor: pointer;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#enterBtn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-}
-
-.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* MENU */
-
-header {
-    text-align: center;
-    padding: 60px 20px 40px;
-    position: relative;
-    z-index: 1;
+.badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a1209;
+  background: linear-gradient(45deg, var(--accent), var(--accent-2));
+  margin-bottom: 16px;
 }
 
 h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3em;
-    letter-spacing: 1px;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.6rem;
+  color: var(--accent);
+  margin-bottom: 10px;
 }
 
-header p {
-    color: var(--muted);
-    margin-top: 10px;
-    font-weight: 300;
+.subtitle {
+  color: var(--muted);
+  margin-bottom: 22px;
 }
 
-.content {
-    position: relative;
-    z-index: 1;
+.field {
+  width: 100%;
+  margin-top: 10px;
+  padding: 13px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink);
 }
 
-.section {
-    max-width: 850px;
-    margin: 40px auto;
-    padding: 30px;
-    border-radius: 20px;
-    background: var(--card);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
-    position: relative;
-    z-index: 1;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+.btn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 13px 20px;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  color: #1a1209;
+  background: linear-gradient(45deg, var(--accent), var(--accent-2));
 }
 
-.section:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
+.status {
+  margin-top: 14px;
+  color: var(--muted);
 }
 
-h2 {
-    font-family: 'Playfair Display', serif;
-    margin-bottom: 20px;
-    color: var(--accent);
-    letter-spacing: 0.5px;
-}
-
-label {
-    display: block;
-    margin: 12px 0;
-    padding: 10px;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-label:hover {
-    background: rgba(228, 176, 79, 0.12);
-    border-color: rgba(228, 176, 79, 0.25);
-    transform: translateX(5px);
-}
-
-input[type="checkbox"] {
-    accent-color: var(--accent);
-    margin-right: 10px;
-}
-
-.step-hint {
-    color: var(--muted);
-    margin-bottom: 14px;
-    font-size: 0.95rem;
-}
-
-button {
-    display: block;
-    margin: 50px auto;
-    padding: 15px 40px;
-    border: none;
-    border-radius: 40px;
-    background: linear-gradient(45deg, var(--accent), var(--accent-2));
-    color: #1a1209;
-    font-size: 1em;
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-button:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-}
-
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-}
-
-#cinemaOverlay {
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    background: black;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1.5s ease;
-    z-index: 998;
-}
-
-.reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.reveal.is-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.preview-item {
-    margin: 10px 0;
-    line-height: 1.6;
-}
-
-.preview-item strong {
-    color: var(--accent);
-}
-
-.placeholder {
-    color: var(--muted);
-    font-style: italic;
-}
-
-.wizard-shell {
-    max-width: 900px;
-}
-
-.step-meta {
-    margin-bottom: 20px;
-}
-
-#stepCounter {
-    color: var(--muted);
-    margin-bottom: 10px;
-}
-
-.progress-track {
-    width: 100%;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 999px;
-    overflow: hidden;
-}
-
-#progressBar {
-    height: 100%;
-    width: 25%;
-    background: linear-gradient(45deg, var(--accent), var(--accent-2));
-    transition: width 0.35s ease;
-}
-
-.menu-step {
-    display: none;
-    animation: fadeStep 0.4s ease;
-}
-
-.menu-step.active {
-    display: block;
-}
-
-@keyframes fadeStep {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.wizard-nav {
-    margin-top: 30px;
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.wizard-nav button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    min-width: 180px;
-    padding: 13px 26px;
-    letter-spacing: 0.2px;
-}
-
-@media (max-width: 680px) {
-    .wizard-nav {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .wizard-nav button {
-        width: 100%;
-        max-width: 360px;
-    }
-}
-
-.is-hidden {
-    display: none !important;
+.help {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 </style>
 </head>
-
 <body>
-
-<!-- Hearts -->
-<script>
-function createHearts() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML = "❤";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (6 + Math.random() * 6) + "s";
-    heart.style.fontSize = (12 + Math.random() * 15) + "px";
-    document.body.appendChild(heart);
-
-    setTimeout(() => {
-        heart.remove();
-    }, 12000);
-}
-
-setInterval(createHearts, 800);
-</script>
-
-<!-- INTRO -->
-<div id="intro">
+  <section class="card">
+    <span class="badge">Accès privé</span>
     <h1>L’Évidence</h1>
-    <p>Le meilleur dîner de notre vie ?</p>
-    <button id="enterBtn" onclick="enterSite()">Entrer</button>
-</div>
+    <p class="subtitle">Connecte-toi pour accéder au menu et à tes choix synchronisés.</p>
 
-<div id="cinemaOverlay"></div>
+    <input id="loginInput" class="field" type="text" placeholder="Login">
+    <input id="passwordInput" class="field" type="password" placeholder="Mot de passe">
+    <button id="loginBtn" class="btn" type="button">Se connecter</button>
 
-<main class="content">
+    <p id="status" class="status">Identifiants attendus : carotte / mot de passe Firebase.</p>
+    <p class="help">Le login est insensible à la casse.</p>
+  </section>
 
-<header>
-    <h1>Restaurant L’Évidence</h1>
-    <p>Chef : Uma</p>
-</header>
-
-<form id="menuForm">
-
-<div class="section reveal wizard-shell">
-<div class="step-meta">
-<p id="stepCounter">Étape 1 sur 4 • Mise en bouche</p>
-<div class="progress-track"><div id="progressBar"></div></div>
-</div>
-
-<div class="menu-step active" data-step="0" data-field="mise">
-<h2>Mise en bouche</h2>
-<p class="step-hint">Choisis entre 1 et 2 options.</p>
-<label><input type="checkbox" name="mise" value="Le moment précis où tout a commencé à devenir évident entre nous.">Le moment précis où tout a commencé à devenir évident entre nous.</label>
-<label><input type="checkbox" name="mise" value="Ce que nous admirons le plus l’un chez l’autre.">Ce que nous admirons le plus l’un chez l’autre.</label>
-<label><input type="checkbox" name="mise" value="Le souvenir le plus drôle que nous avons vécu ensemble.">Le souvenir le plus drôle que nous avons vécu ensemble.</label>
-<label><input type="checkbox" name="mise" value="Une vérité que nous n’avons jamais formulée à voix haute.">Une vérité que nous n’avons jamais formulée à voix haute.</label>
-<label><input type="checkbox" name="mise" value="Ce que notre rencontre nous a appris sur nous-mêmes.">Ce que notre rencontre nous a appris sur nous-mêmes.</label>
-</div>
-
-<div class="menu-step" data-step="1" data-field="entree">
-<h2>Entrée</h2>
-<p class="step-hint">Choisis entre 1 et 2 options.</p>
-<label><input type="checkbox" name="entree" value="Ce qui nous a donné envie de rester et de construire.">Ce qui nous a donné envie de rester et de construire.</label>
-<label><input type="checkbox" name="entree" value="Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.">Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.</label>
-<label><input type="checkbox" name="entree" value="Le type de couple que nous voulons devenir.">Le type de couple que nous voulons devenir.</label>
-<label><input type="checkbox" name="entree" value="Si notre histoire était un film, quel serait son titre ?">Si notre histoire était un film, quel serait son titre ?</label>
-<label><input type="checkbox" name="entree" value="Ce que nous nous apportons mutuellement et qui nous fait grandir.">Ce que nous nous apportons mutuellement et qui nous fait grandir.</label>
-</div>
-
-<div class="menu-step" data-step="2" data-field="plat">
-<h2>Plat</h2>
-<p class="step-hint">Choisis entre 1 et 2 options.</p>
-<label><input type="checkbox" name="plat" value="Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.">Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.</label>
-<label><input type="checkbox" name="plat" value="Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.">Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.</label>
-<label><input type="checkbox" name="plat" value="Les valeurs que nous voulons transmettre autour de nous.">Les valeurs que nous voulons transmettre autour de nous.</label>
-<label><input type="checkbox" name="plat" value="Les règles d’or qui protégeront notre amour dans le temps.">Les règles d’or qui protégeront notre amour dans le temps.</label>
-<label><input type="checkbox" name="plat" value="La manière dont nous voulons gérer les conflits et évoluer ensemble.">La manière dont nous voulons gérer les conflits et évoluer ensemble.</label>
-</div>
-
-<div class="menu-step" data-step="3" data-field="dessert">
-<h2>Dessert</h2>
-<p class="step-hint">Choisis entre 1 et 2 options.</p>
-<label><input type="checkbox" name="dessert" value="Notre vie dans cinq ans, racontée comme si elle existait déjà.">Notre vie dans cinq ans, racontée comme si elle existait déjà.</label>
-<label><input type="checkbox" name="dessert" value="Le rêve le plus fou que nous pourrions réaliser ensemble.">Le rêve le plus fou que nous pourrions réaliser ensemble.</label>
-<label><input type="checkbox" name="dessert" value="La maison idéale, la ville et l’ambiance de notre futur quotidien.">La maison idéale, la ville et l’ambiance de notre futur quotidien.</label>
-<label><input type="checkbox" name="dessert" value="Le pacte symbolique que nous décidons de sceller ce soir.">Le pacte symbolique que nous décidons de sceller ce soir.</label>
-<label><input type="checkbox" name="dessert" value="La promesse que nous choisissons de nous faire pour l’année à venir.">La promesse que nous choisissons de nous faire pour l’année à venir.</label>
-</div>
-
-<div class="wizard-nav">
-<button id="prevBtn" type="button">Précédent</button>
-<button id="nextBtn" type="button">Étape suivante</button>
-<button id="validateBtn" type="button" onclick="generateMenu()" class="is-hidden" disabled>Valider notre menu</button>
-</div>
-</div>
-
-<div class="section reveal" id="liveMenuSection">
-<h2>Notre menu en direct</h2>
-<p class="preview-item"><strong>Mise en bouche :</strong> <span id="preview-mise" class="placeholder">Aucune sélection</span></p>
-<p class="preview-item"><strong>Entrée :</strong> <span id="preview-entree" class="placeholder">Aucune sélection</span></p>
-<p class="preview-item"><strong>Plat :</strong> <span id="preview-plat" class="placeholder">Aucune sélection</span></p>
-<p class="preview-item"><strong>Dessert :</strong> <span id="preview-dessert" class="placeholder">Aucune sélection</span></p>
-</div>
-</form>
-
-</main>
-
-<script>
-const STORAGE_KEY = "menuDraft";
-const RECAP_KEY = "menuRecap";
-const GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyTdT2dGBpobJz1DpD9mBb740nciu_4CXrFJZFN29DfsepYOvMycjREln5NnvWAFzR7/exec";
-const GOOGLE_SHEETS_DEFAULT_STATUS = "nouvelle";
-const STEP_FIELDS = ["mise", "entree", "plat", "dessert"];
-const STEP_LABELS = ["Mise en bouche", "Entrée", "Plat", "Dessert"];
-let currentStepIndex = 0;
-
-function enterSite() {
-    document.getElementById("intro").classList.add("hidden");
-}
-
-function getCurrentSelections() {
-    const getCheckedValues = (field) => Array.from(document.querySelectorAll(`input[name="${field}"]:checked`)).map((input) => input.value);
-
-    return {
-        mise: getCheckedValues("mise"),
-        entree: getCheckedValues("entree"),
-        plat: getCheckedValues("plat"),
-        dessert: getCheckedValues("dessert")
-    };
-}
-
-function setPreviewValue(id, value) {
-    const element = document.getElementById(id);
-    if (!element) return;
-
-    const entries = Array.isArray(value) ? value : [];
-
-    if (entries.length) {
-        element.textContent = entries.join(" • ");
-        element.classList.remove("placeholder");
-    } else {
-        element.textContent = "Aucune sélection";
-        element.classList.add("placeholder");
-    }
-}
-
-function updateLiveMenuPreview(data) {
-    setPreviewValue("preview-mise", data.mise);
-    setPreviewValue("preview-entree", data.entree);
-    setPreviewValue("preview-plat", data.plat);
-    setPreviewValue("preview-dessert", data.dessert);
-}
-
-function updateValidateButtonState(data) {
-    const validateButton = document.getElementById("validateBtn");
-    if (!validateButton) return;
-
-    const isComplete = STEP_FIELDS.every((field) => data[field].length >= 1 && data[field].length <= 2);
-    validateButton.disabled = !isComplete;
-}
-
-function isStepComplete(stepIndex) {
-    const field = STEP_FIELDS[stepIndex];
-    const checkedCount = document.querySelectorAll(`input[name="${field}"]:checked`).length;
-    return checkedCount >= 1 && checkedCount <= 2;
-}
-
-function enforceMaxSelection(field, changedInput) {
-    const checkedInputs = document.querySelectorAll(`input[name="${field}"]:checked`);
-    if (checkedInputs.length <= 2) return;
-
-    changedInput.checked = false;
-    alert("Tu peux choisir au maximum 2 options par étape.");
-}
-
-function updateWizardNavigation() {
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const validateBtn = document.getElementById("validateBtn");
-    const stepCounter = document.getElementById("stepCounter");
-    const progressBar = document.getElementById("progressBar");
-    const selections = getCurrentSelections();
-
-    prevBtn.disabled = currentStepIndex === 0;
-    nextBtn.disabled = !isStepComplete(currentStepIndex);
-    nextBtn.classList.toggle("is-hidden", currentStepIndex === STEP_FIELDS.length - 1);
-    validateBtn.classList.toggle("is-hidden", currentStepIndex !== STEP_FIELDS.length - 1);
-    updateValidateButtonState(selections);
-
-    stepCounter.textContent = `Étape ${currentStepIndex + 1} sur ${STEP_FIELDS.length} • ${STEP_LABELS[currentStepIndex]}`;
-    progressBar.style.width = `${((currentStepIndex + 1) / STEP_FIELDS.length) * 100}%`;
-}
-
-function showStep(stepIndex) {
-    currentStepIndex = Math.max(0, Math.min(stepIndex, STEP_FIELDS.length - 1));
-    document.querySelectorAll(".menu-step").forEach((step, index) => {
-        step.classList.toggle("active", index === currentStepIndex);
-    });
-    updateWizardNavigation();
-}
-
-function saveDraftSelections() {
-    const selections = getCurrentSelections();
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(selections));
-    updateLiveMenuPreview(selections);
-    updateValidateButtonState(selections);
-}
-
-function restoreDraftSelections() {
-    const draft = localStorage.getItem(STORAGE_KEY);
-    if (!draft) {
-        const selections = getCurrentSelections();
-        updateLiveMenuPreview(selections);
-        updateValidateButtonState(selections);
-        return;
-    }
-
-    const parsed = JSON.parse(draft);
-    ["mise", "entree", "plat", "dessert"].forEach((field) => {
-        const values = Array.isArray(parsed[field]) ? parsed[field].slice(0, 2) : [];
-        values.forEach((value) => {
-            const input = document.querySelector(`input[name="${field}"][value="${CSS.escape(value)}"]`);
-            if (input) input.checked = true;
-        });
-    });
-
-    const selections = getCurrentSelections();
-    updateLiveMenuPreview(selections);
-    updateValidateButtonState(selections);
-}
-
-function goToNextStep() {
-    if (!isStepComplete(currentStepIndex)) {
-        alert("Choisis une option pour passer à l’étape suivante.");
-        return;
-    }
-    showStep(currentStepIndex + 1);
-}
-
-function goToPreviousStep() {
-    showStep(currentStepIndex - 1);
-}
-
-async function sendToGoogleSheets(recapData) {
-    if (!GOOGLE_SHEETS_WEBHOOK_URL) return;
-
-    const payload = {
-        mise: recapData.mise.join(" | "),
-        entree: recapData.entree.join(" | "),
-        plat: recapData.plat.join(" | "),
-        dessert: recapData.dessert.join(" | "),
-        submittedAt: new Date().toISOString(),
-        page: window.location.href,
-        statut: GOOGLE_SHEETS_DEFAULT_STATUS
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script>
+    const SINGLE_LOGIN = "carotte";
+    const SINGLE_USER_EMAIL = "carotte@carotte-b757f.firebaseapp.com";
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyA4nUbl2aDHFdIvKt-UGkaC_P1456PXGUo",
+      authDomain: "carotte-b757f.firebaseapp.com",
+      projectId: "carotte-b757f",
+      appId: "1:1059810442800:web:a70f359f82ed1efe1477f5"
     };
 
-    try {
-        const request = fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-                "Content-Type": "text/plain;charset=utf-8"
-            },
-            body: JSON.stringify(payload),
-            keepalive: true
-        });
+    const statusEl = document.getElementById("status");
+    const loginInput = document.getElementById("loginInput");
+    const passwordInput = document.getElementById("passwordInput");
 
-        await Promise.race([
-            request,
-            new Promise((resolve) => setTimeout(resolve, 1200))
-        ]);
-    } catch (error) {
-        console.error("Envoi Google Sheets échoué:", error);
+    function setStatus(message) {
+      statusEl.textContent = message;
     }
-}
 
-function generateMenu() {
-    const recapData = getCurrentSelections();
-    const hasInvalidStep = STEP_FIELDS.some((field) => {
-        const count = recapData[field].length;
-        return count < 1 || count > 2;
-    });
+    firebase.initializeApp(FIREBASE_CONFIG);
+    const auth = firebase.auth();
 
-    if (hasInvalidStep) {
-        alert("Merci de choisir entre 1 et 2 options dans chaque catégorie.");
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) return;
+      if ((user.email || "").toLowerCase() !== SINGLE_USER_EMAIL.toLowerCase()) {
+        await auth.signOut();
+        setStatus("Compte non autorisé.");
         return;
-    }
-
-    const overlay = document.getElementById("cinemaOverlay");
-    overlay.style.opacity = "1";
-
-    setTimeout(async () => {
-        await sendToGoogleSheets(recapData);
-        localStorage.setItem(RECAP_KEY, JSON.stringify(recapData));
-        sessionStorage.setItem(RECAP_KEY, JSON.stringify(recapData));
-        window.location.href = "recap.html";
-
-    }, 1500);
-}
-
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            revealObserver.unobserve(entry.target);
-        }
+      }
+      window.location.href = "menu.html";
     });
-}, { threshold: 0.2 });
 
-document.querySelectorAll(".reveal").forEach((section) => {
-    revealObserver.observe(section);
-});
+    document.getElementById("loginBtn").addEventListener("click", async () => {
+      const login = loginInput.value.trim().toLowerCase();
+      const password = passwordInput.value;
 
-document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-    checkbox.addEventListener("change", () => {
-        enforceMaxSelection(checkbox.name, checkbox);
-        saveDraftSelections();
-        updateWizardNavigation();
+      if (!login || !password) {
+        setStatus("Renseigne login et mot de passe.");
+        return;
+      }
+
+      if (login !== SINGLE_LOGIN) {
+        setStatus("Login invalide.");
+        return;
+      }
+
+      if (password.length < 6) {
+        setStatus("Mot de passe invalide (minimum 6 caractères).");
+        return;
+      }
+
+      try {
+        setStatus("Connexion en cours...");
+        await auth.signInWithEmailAndPassword(SINGLE_USER_EMAIL, password);
+      } catch (error) {
+        setStatus(`Connexion impossible: ${error.message}`);
+      }
     });
-});
-
-restoreDraftSelections();
-
-const firstIncompleteStep = STEP_FIELDS.findIndex((_, index) => !isStepComplete(index));
-showStep(firstIncompleteStep === -1 ? STEP_FIELDS.length - 1 : firstIncompleteStep);
-
-document.getElementById("nextBtn").addEventListener("click", goToNextStep);
-document.getElementById("prevBtn").addEventListener("click", goToPreviousStep);
-</script>
-
-
+  </script>
 </body>
-
-
 </html>

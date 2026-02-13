@@ -1,5 +1,54 @@
 # levidence
 
+## Connexion et synchro multi-appareils (Firebase)
+
+Objectif : se connecter en email/mot de passe et retrouver brouillon + récap sur un autre appareil.
+
+### 1) Créer le projet Firebase
+
+- Ouvre Firebase Console
+- Crée un projet
+- Ajoute une application Web
+- Copie la config (`apiKey`, `authDomain`, `projectId`, `appId`)
+
+### 2) Activer l’authentification
+
+- `Authentication` → `Sign-in method`
+- Active `Email/Password`
+
+### 3) Activer Firestore
+
+- `Firestore Database` → créer la base
+- Mode production (ou test temporaire)
+
+Règles minimales recommandées :
+
+```text
+rules_version = '2';
+service cloud.firestore {
+	match /databases/{database}/documents {
+		match /levidenceUsers/{userId} {
+			allow read, write: if request.auth != null && request.auth.uid == userId;
+		}
+	}
+}
+```
+
+### 4) Renseigner la config dans le code
+
+Dans [index.html](index.html) et [recap.html](recap.html), complète l’objet `FIREBASE_CONFIG` :
+
+```javascript
+const FIREBASE_CONFIG = {
+	apiKey: "...",
+	authDomain: "...",
+	projectId: "...",
+	appId: "..."
+};
+```
+
+Une fois rempli, l’utilisateur peut se connecter et retrouver ses données sur n’importe quel appareil.
+
 ## Suivi en temps réel dans Google Sheets
 
 Objectif : à chaque clic sur "Valider notre menu", ajouter une nouvelle ligne dans Google Sheets.

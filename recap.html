@@ -3,276 +3,270 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L’Évidence – Notre Menu</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<title>L’Évidence — Récapitulatif</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --bg-1: #130d1b;
-    --bg-2: #241433;
-    --bg-3: #0f0916;
-    --ink: #f8f3ff;
-    --muted: #cabbe0;
-    --accent: #f1c27d;
-    --accent-2: #d88ab6;
-    --card: rgba(255, 255, 255, 0.09);
+  --bg-1: #130d1b;
+  --bg-2: #241433;
+  --bg-3: #0f0916;
+  --ink: #f8f3ff;
+  --muted: #cabbe0;
+  --accent: #f1c27d;
+  --accent-2: #d88ab6;
+  --card: rgba(255, 255, 255, 0.09);
 }
 
 body {
-    min-height: 100vh;
-    font-family: 'Outfit', sans-serif;
-    color: var(--ink);
-    background: radial-gradient(1200px circle at 10% 10%, #2d1d3e 0%, transparent 55%),
-                radial-gradient(900px circle at 90% 20%, #3a2140 0%, transparent 60%),
-                linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
-    background-size: 180% 180%;
-    animation: gradientMove 18s ease infinite;
-    display: grid;
-    place-items: center;
-    padding: 24px;
+  min-height: 100vh;
+  font-family: 'Outfit', sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1200px circle at 10% 10%, #2d1d3e 0%, transparent 55%),
+    radial-gradient(900px circle at 90% 20%, #3a2140 0%, transparent 60%),
+    linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+  background-size: 180% 180%;
+  animation: gradientMove 18s ease infinite;
+  display: grid;
+  place-items: center;
+  padding: 24px;
 }
 
 @keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .card {
-    width: min(860px, 100%);
-    background: var(--card);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 22px;
-    padding: 38px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
-    animation: fadeIn 0.8s ease;
-    position: relative;
-    overflow: hidden;
+  width: min(980px, 100%);
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 24px;
+  padding: 34px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
 }
 
-.card::before {
-    content: "";
-    position: absolute;
-    top: -120px;
-    right: -120px;
-    width: 260px;
-    height: 260px;
-    border-radius: 999px;
-    background: radial-gradient(circle, rgba(216, 138, 182, 0.25), transparent 70%);
-    pointer-events: none;
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px) scale(0.98); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+.badge {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a1209;
+  background: linear-gradient(45deg, var(--accent), var(--accent-2));
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  padding: 10px 16px;
+  color: #1a1209;
+  background: linear-gradient(45deg, var(--accent), var(--accent-2));
 }
 
 h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    color: var(--accent);
-    margin-bottom: 10px;
-    line-height: 1.1;
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  color: var(--accent);
 }
 
 .subtitle {
-    color: var(--muted);
-    margin-bottom: 26px;
+  color: var(--muted);
+  margin: 10px 0 20px;
 }
 
-.top-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.82rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #1a1209;
-    background: linear-gradient(45deg, var(--accent), var(--accent-2));
-    border-radius: 999px;
-    padding: 8px 14px;
-    margin-bottom: 16px;
-    font-weight: 600;
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
 }
 
-.menu-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
+.item {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.04);
 }
 
-.menu-block {
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.04);
-    border-radius: 16px;
-    padding: 16px;
+.label {
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
-.menu-label {
-    color: var(--accent);
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.menu-value {
-    line-height: 1.55;
-    color: var(--ink);
-}
-
-.choice-line {
-    margin: 6px 0;
-}
-
-.empty-state {
-    border: 1px dashed rgba(255, 255, 255, 0.26);
-    border-radius: 16px;
-    padding: 16px;
-    color: var(--muted);
-    margin-bottom: 20px;
-}
-
-.menu-item {
-    margin-bottom: 16px;
-    line-height: 1.6;
-}
-
-.menu-item strong {
-    color: var(--accent);
+.choice {
+  margin: 6px 0;
+  line-height: 1.55;
 }
 
 .footer {
-    margin-top: 28px;
-    padding-top: 18px;
-    border-top: 1px solid rgba(255, 255, 255, 0.14);
+  margin-top: 22px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
 
-.final-message {
-    color: #f3b6d8;
-    opacity: 0;
-    transform: translateY(8px);
-    animation: revealMessage 1.6s ease 0.3s forwards;
+.final {
+  color: #f3b6d8;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: reveal 1.6s ease 0.3s forwards;
 }
 
-@keyframes revealMessage {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.footer-actions {
-    margin-top: 16px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-a.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 24px;
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: 600;
-    color: #1a1209;
-    background: linear-gradient(45deg, var(--accent), var(--accent-2));
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-a.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.34);
+.empty {
+  color: var(--muted);
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  padding: 14px;
 }
 
 @media (max-width: 760px) {
-    .card {
-        padding: 28px;
-    }
-
-    h1 {
-        font-size: 2.4rem;
-    }
-
-    .menu-grid {
-        grid-template-columns: 1fr;
-    }
+  .card { padding: 24px; }
+  .grid { grid-template-columns: 1fr; }
+  h1 { font-size: 2.2rem; }
 }
 </style>
 </head>
 <body>
-<div class="card" id="recapCard"></div>
+  <section class="card" id="recapCard"></section>
 
-<script>
-const recapRaw = localStorage.getItem("menuRecap") || sessionStorage.getItem("menuRecap");
-const recapCard = document.getElementById("recapCard");
-let recap = null;
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script>
+    const SINGLE_USER_EMAIL = "carotte@carotte-b757f.firebaseapp.com";
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyA4nUbl2aDHFdIvKt-UGkaC_P1456PXGUo",
+      authDomain: "carotte-b757f.firebaseapp.com",
+      projectId: "carotte-b757f",
+      appId: "1:1059810442800:web:a70f359f82ed1efe1477f5"
+    };
 
-if (recapRaw) {
-    try {
-        recap = JSON.parse(recapRaw);
-    } catch {
-        recap = null;
-    }
-}
+    const recapCard = document.getElementById("recapCard");
+    const localRecap = (() => {
+      try {
+        return JSON.parse(localStorage.getItem("menuRecap") || sessionStorage.getItem("menuRecap") || "null");
+      } catch {
+        return null;
+      }
+    })();
 
-if (!recap) {
-    recapCard.innerHTML = `
-        <span class="top-badge">Résumé du dîner</span>
-        <h1>Notre Menu</h1>
-        <div class="empty-state">Aucune sélection trouvée pour le moment.</div>
-        <a class="btn" href="index.html">Retour au menu</a>
-    `;
-} else {
-    const data = recap;
-    const escapeHtml = (value) => String(value)
+    function escapeHtml(value) {
+      return String(value)
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+    }
 
-    const formatSelection = (value) => {
-        if (Array.isArray(value)) {
-            const safeValues = value.slice(0, 2);
-            if (!safeValues.length) return "Aucune sélection";
-            return safeValues
-                .map((entry) => `<p class="choice-line">• ${escapeHtml(entry)}</p>`)
-                .join("");
-        }
-        return value ? `<p class="choice-line">• ${escapeHtml(value)}</p>` : "Aucune sélection";
-    };
+    function lines(value) {
+      const entries = Array.isArray(value) ? value.slice(0, 2) : value ? [value] : [];
+      if (!entries.length) return `<p class="choice">Aucune sélection</p>`;
+      return entries.map((entry) => `<p class="choice">• ${escapeHtml(entry)}</p>`).join("");
+    }
 
-    recapCard.innerHTML = `
-        <span class="top-badge">Réservation confirmée</span>
+    function renderEmpty() {
+      recapCard.innerHTML = `
+        <div class="top">
+          <span class="badge">Résumé du dîner</span>
+          <a class="btn" href="menu.html">Retour au menu</a>
+        </div>
         <h1>Notre Menu</h1>
-        <p class="subtitle">Rendez-vous le 14 février à 21h.</p>
-        <div class="menu-grid">
-            <article class="menu-block">
-                <p class="menu-label">Mise en bouche</p>
-                <div class="menu-value">${formatSelection(data.mise)}</div>
-            </article>
-            <article class="menu-block">
-                <p class="menu-label">Entrée</p>
-                <div class="menu-value">${formatSelection(data.entree)}</div>
-            </article>
-            <article class="menu-block">
-                <p class="menu-label">Plat</p>
-                <div class="menu-value">${formatSelection(data.plat)}</div>
-            </article>
-            <article class="menu-block">
-                <p class="menu-label">Dessert</p>
-                <div class="menu-value">${formatSelection(data.dessert)}</div>
-            </article>
+        <p class="empty">Aucune sélection trouvée pour le moment.</p>
+      `;
+    }
+
+    function renderRecap(data, email = "") {
+      recapCard.innerHTML = `
+        <div class="top">
+          <span class="badge">Réservation confirmée</span>
+          <div>
+            <a class="btn" href="menu.html">Changer de menu</a>
+            <button class="btn" id="logoutBtn" type="button" style="margin-left:8px;">Se déconnecter</button>
+          </div>
+        </div>
+        <h1>Notre Menu</h1>
+        <p class="subtitle">Compte : ${escapeHtml(email || SINGLE_USER_EMAIL)} · Rendez-vous le 14 février à 21h.</p>
+        <div class="grid">
+          <article class="item"><p class="label">Mise en bouche</p>${lines(data.mise)}</article>
+          <article class="item"><p class="label">Entrée</p>${lines(data.entree)}</article>
+          <article class="item"><p class="label">Plat</p>${lines(data.plat)}</article>
+          <article class="item"><p class="label">Dessert</p>${lines(data.dessert)}</article>
         </div>
         <div class="footer">
-            <p class="final-message">Et ce n’est que le début de notre histoire...</p>
-            <div class="footer-actions">
-                <a class="btn" href="index.html">Changer de menu</a>
-            </div>
+          <p class="final">Et ce n’est que le début de notre histoire...</p>
         </div>
-    `;
-}
-</script>
+      `;
+
+      const btn = document.getElementById("logoutBtn");
+      if (btn) {
+        btn.addEventListener("click", async () => {
+          await firebase.auth().signOut();
+          window.location.href = "index.html";
+        });
+      }
+    }
+
+    firebase.initializeApp(FIREBASE_CONFIG);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    if (localRecap) {
+      renderRecap(localRecap);
+    } else {
+      renderEmpty();
+    }
+
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      if ((user.email || "").toLowerCase() !== SINGLE_USER_EMAIL.toLowerCase()) {
+        await auth.signOut();
+        window.location.href = "index.html";
+        return;
+      }
+
+      try {
+        const doc = await db.collection("levidenceUsers").doc(user.uid).get();
+        const cloudRecap = doc.exists ? (doc.data()?.recap || null) : null;
+        if (cloudRecap) {
+          localStorage.setItem("menuRecap", JSON.stringify(cloudRecap));
+          renderRecap(cloudRecap, user.email || "");
+        } else if (localRecap) {
+          renderRecap(localRecap, user.email || "");
+        }
+      } catch {
+        if (localRecap) renderRecap(localRecap, user.email || "");
+      }
+    });
+  </script>
 </body>
 </html>

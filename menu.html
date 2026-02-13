@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L’Évidence — Composition du menu</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-1: #130d1b;
+  --bg-2: #241433;
+  --bg-3: #0f0916;
+  --ink: #f8f3ff;
+  --muted: #cabbe0;
+  --accent: #f1c27d;
+  --accent-2: #d88ab6;
+  --card: rgba(255, 255, 255, 0.07);
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Outfit', sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1200px circle at 10% 10%, #2d1d3e 0%, transparent 55%),
+    radial-gradient(900px circle at 90% 20%, #3a2140 0%, transparent 60%),
+    linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+  background-size: 180% 180%;
+  animation: gradientMove 18s ease infinite;
+  padding: 24px;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.wrap {
+  max-width: 1020px;
+  margin: 0 auto;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem;
+  color: var(--accent);
+}
+
+.user {
+  color: var(--muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  padding: 11px 18px;
+  color: #1a1209;
+  background: linear-gradient(45deg, var(--accent), var(--accent-2));
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: 1.3fr 0.9fr;
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.35);
+}
+
+.step-title {
+  font-family: 'Playfair Display', serif;
+  color: var(--accent);
+  font-size: 1.7rem;
+  margin-bottom: 8px;
+}
+
+.hint {
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+.progress {
+  margin-bottom: 16px;
+}
+
+.progress-text {
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  width: 25%;
+  background: linear-gradient(45deg, var(--accent), var(--accent-2));
+  transition: width 0.3s ease;
+}
+
+label {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+label:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+input[type="checkbox"] {
+  margin-right: 8px;
+  accent-color: var(--accent);
+}
+
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
+.nav {
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.nav .btn {
+  min-width: 150px;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.preview-title {
+  font-family: 'Playfair Display', serif;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+
+.preview-item {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.preview-item strong {
+  color: var(--accent);
+}
+
+.placeholder {
+  color: var(--muted);
+  font-style: italic;
+}
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topbar">
+      <div>
+        <h1>Restaurant L’Évidence</h1>
+        <p class="user" id="userStatus">Connexion en cours...</p>
+      </div>
+      <button id="logoutBtn" class="btn" type="button">Se déconnecter</button>
+    </div>
+
+    <div class="shell">
+      <section class="card">
+        <div class="progress">
+          <p id="stepText" class="progress-text">Étape 1 sur 4 • Mise en bouche</p>
+          <div class="track"><div id="progressBar" class="bar"></div></div>
+        </div>
+
+        <div class="step active" data-step="0" data-field="mise">
+          <p class="step-title">Mise en bouche</p>
+          <p class="hint">Choisis entre 1 et 2 options.</p>
+          <label><input type="checkbox" name="mise" value="Le moment précis où tout a commencé à devenir évident entre nous.">Le moment précis où tout a commencé à devenir évident entre nous.</label>
+          <label><input type="checkbox" name="mise" value="Ce que nous admirons le plus l’un chez l’autre.">Ce que nous admirons le plus l’un chez l’autre.</label>
+          <label><input type="checkbox" name="mise" value="Le souvenir le plus drôle que nous avons vécu ensemble.">Le souvenir le plus drôle que nous avons vécu ensemble.</label>
+          <label><input type="checkbox" name="mise" value="Une vérité que nous n’avons jamais formulée à voix haute.">Une vérité que nous n’avons jamais formulée à voix haute.</label>
+          <label><input type="checkbox" name="mise" value="Ce que notre rencontre nous a appris sur nous-mêmes.">Ce que notre rencontre nous a appris sur nous-mêmes.</label>
+        </div>
+
+        <div class="step" data-step="1" data-field="entree">
+          <p class="step-title">Entrée</p>
+          <p class="hint">Choisis entre 1 et 2 options.</p>
+          <label><input type="checkbox" name="entree" value="Ce qui nous a donné envie de rester et de construire.">Ce qui nous a donné envie de rester et de construire.</label>
+          <label><input type="checkbox" name="entree" value="Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.">Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.</label>
+          <label><input type="checkbox" name="entree" value="Le type de couple que nous voulons devenir.">Le type de couple que nous voulons devenir.</label>
+          <label><input type="checkbox" name="entree" value="Si notre histoire était un film, quel serait son titre ?">Si notre histoire était un film, quel serait son titre ?</label>
+          <label><input type="checkbox" name="entree" value="Ce que nous nous apportons mutuellement et qui nous fait grandir.">Ce que nous nous apportons mutuellement et qui nous fait grandir.</label>
+        </div>
+
+        <div class="step" data-step="2" data-field="plat">
+          <p class="step-title">Plat</p>
+          <p class="hint">Choisis entre 1 et 2 options.</p>
+          <label><input type="checkbox" name="plat" value="Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.">Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.</label>
+          <label><input type="checkbox" name="plat" value="Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.">Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.</label>
+          <label><input type="checkbox" name="plat" value="Les valeurs que nous voulons transmettre autour de nous.">Les valeurs que nous voulons transmettre autour de nous.</label>
+          <label><input type="checkbox" name="plat" value="Les règles d’or qui protégeront notre amour dans le temps.">Les règles d’or qui protégeront notre amour dans le temps.</label>
+          <label><input type="checkbox" name="plat" value="La manière dont nous voulons gérer les conflits et évoluer ensemble.">La manière dont nous voulons gérer les conflits et évoluer ensemble.</label>
+        </div>
+
+        <div class="step" data-step="3" data-field="dessert">
+          <p class="step-title">Dessert</p>
+          <p class="hint">Choisis entre 1 et 2 options.</p>
+          <label><input type="checkbox" name="dessert" value="Notre vie dans cinq ans, racontée comme si elle existait déjà.">Notre vie dans cinq ans, racontée comme si elle existait déjà.</label>
+          <label><input type="checkbox" name="dessert" value="Le rêve le plus fou que nous pourrions réaliser ensemble.">Le rêve le plus fou que nous pourrions réaliser ensemble.</label>
+          <label><input type="checkbox" name="dessert" value="La maison idéale, la ville et l’ambiance de notre futur quotidien.">La maison idéale, la ville et l’ambiance de notre futur quotidien.</label>
+          <label><input type="checkbox" name="dessert" value="Le pacte symbolique que nous décidons de sceller ce soir.">Le pacte symbolique que nous décidons de sceller ce soir.</label>
+          <label><input type="checkbox" name="dessert" value="La promesse que nous choisissons de nous faire pour l’année à venir.">La promesse que nous choisissons de nous faire pour l’année à venir.</label>
+        </div>
+
+        <div class="nav">
+          <button id="prevBtn" class="btn" type="button">Précédent</button>
+          <button id="nextBtn" class="btn" type="button">Étape suivante</button>
+          <button id="validateBtn" class="btn" type="button" style="display:none;">Valider notre menu</button>
+        </div>
+      </section>
+
+      <aside class="card">
+        <p class="preview-title">Notre menu en direct</p>
+        <p class="preview-item"><strong>Mise en bouche :</strong> <span id="preview-mise" class="placeholder">Aucune sélection</span></p>
+        <p class="preview-item"><strong>Entrée :</strong> <span id="preview-entree" class="placeholder">Aucune sélection</span></p>
+        <p class="preview-item"><strong>Plat :</strong> <span id="preview-plat" class="placeholder">Aucune sélection</span></p>
+        <p class="preview-item"><strong>Dessert :</strong> <span id="preview-dessert" class="placeholder">Aucune sélection</span></p>
+      </aside>
+    </div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+  <script>
+    const STORAGE_KEY = "menuDraft";
+    const RECAP_KEY = "menuRecap";
+    const GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyTdT2dGBpobJz1DpD9mBb740nciu_4CXrFJZFN29DfsepYOvMycjREln5NnvWAFzR7/exec";
+    const GOOGLE_SHEETS_DEFAULT_STATUS = "nouvelle";
+
+    const SINGLE_USER_EMAIL = "carotte@carotte-b757f.firebaseapp.com";
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyA4nUbl2aDHFdIvKt-UGkaC_P1456PXGUo",
+      authDomain: "carotte-b757f.firebaseapp.com",
+      projectId: "carotte-b757f",
+      appId: "1:1059810442800:web:a70f359f82ed1efe1477f5"
+    };
+
+    const STEP_FIELDS = ["mise", "entree", "plat", "dessert"];
+    const STEP_LABELS = ["Mise en bouche", "Entrée", "Plat", "Dessert"];
+
+    let currentStepIndex = 0;
+    let currentUserId = null;
+
+    firebase.initializeApp(FIREBASE_CONFIG);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    function getCurrentSelections() {
+      const valuesFor = (field) => Array.from(document.querySelectorAll(`input[name="${field}"]:checked`)).map((input) => input.value);
+      return {
+        mise: valuesFor("mise"),
+        entree: valuesFor("entree"),
+        plat: valuesFor("plat"),
+        dessert: valuesFor("dessert")
+      };
+    }
+
+    function setPreview(id, value) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (value.length) {
+        el.textContent = value.join(" • ");
+        el.classList.remove("placeholder");
+      } else {
+        el.textContent = "Aucune sélection";
+        el.classList.add("placeholder");
+      }
+    }
+
+    function updatePreview(data) {
+      setPreview("preview-mise", data.mise);
+      setPreview("preview-entree", data.entree);
+      setPreview("preview-plat", data.plat);
+      setPreview("preview-dessert", data.dessert);
+    }
+
+    function enforceMaxSelection(field, changedInput) {
+      const checked = document.querySelectorAll(`input[name="${field}"]:checked`);
+      if (checked.length <= 2) return;
+      changedInput.checked = false;
+      alert("Tu peux choisir au maximum 2 options par étape.");
+    }
+
+    function isStepComplete(stepIndex) {
+      const field = STEP_FIELDS[stepIndex];
+      const count = document.querySelectorAll(`input[name="${field}"]:checked`).length;
+      return count >= 1 && count <= 2;
+    }
+
+    function allStepsValid(data) {
+      return STEP_FIELDS.every((field) => data[field].length >= 1 && data[field].length <= 2);
+    }
+
+    function updateNavigation() {
+      const prev = document.getElementById("prevBtn");
+      const next = document.getElementById("nextBtn");
+      const validate = document.getElementById("validateBtn");
+      const stepText = document.getElementById("stepText");
+      const bar = document.getElementById("progressBar");
+      const selections = getCurrentSelections();
+
+      prev.disabled = currentStepIndex === 0;
+      next.disabled = !isStepComplete(currentStepIndex);
+
+      const isLast = currentStepIndex === STEP_FIELDS.length - 1;
+      next.style.display = isLast ? "none" : "inline-flex";
+      validate.style.display = isLast ? "inline-flex" : "none";
+      validate.disabled = !allStepsValid(selections);
+
+      stepText.textContent = `Étape ${currentStepIndex + 1} sur ${STEP_FIELDS.length} • ${STEP_LABELS[currentStepIndex]}`;
+      bar.style.width = `${((currentStepIndex + 1) / STEP_FIELDS.length) * 100}%`;
+    }
+
+    function showStep(index) {
+      currentStepIndex = Math.max(0, Math.min(index, STEP_FIELDS.length - 1));
+      document.querySelectorAll(".step").forEach((step, i) => {
+        step.classList.toggle("active", i === currentStepIndex);
+      });
+      updateNavigation();
+    }
+
+    async function syncDraftToCloud(selections) {
+      if (!currentUserId) return;
+      await db.collection("levidenceUsers").doc(currentUserId).set({
+        draft: selections,
+        updatedAt: new Date().toISOString()
+      }, { merge: true });
+    }
+
+    async function syncRecapToCloud(recapData) {
+      if (!currentUserId) return;
+      await db.collection("levidenceUsers").doc(currentUserId).set({
+        recap: recapData,
+        recapUpdatedAt: new Date().toISOString()
+      }, { merge: true });
+    }
+
+    function applySelectionsToForm(selections) {
+      STEP_FIELDS.forEach((field) => {
+        document.querySelectorAll(`input[name="${field}"]`).forEach((input) => {
+          input.checked = false;
+        });
+        (Array.isArray(selections[field]) ? selections[field].slice(0, 2) : []).forEach((value) => {
+          const input = document.querySelector(`input[name="${field}"][value="${CSS.escape(value)}"]`);
+          if (input) input.checked = true;
+        });
+      });
+    }
+
+    function saveDraftLocalAndCloud() {
+      const selections = getCurrentSelections();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(selections));
+      updatePreview(selections);
+      updateNavigation();
+      syncDraftToCloud(selections).catch(() => {});
+    }
+
+    function restoreDraftLocal() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+        if (!parsed) return;
+        applySelectionsToForm(parsed);
+      } catch {
+      }
+    }
+
+    async function loadCloudState() {
+      if (!currentUserId) return;
+      const doc = await db.collection("levidenceUsers").doc(currentUserId).get();
+      if (!doc.exists) return;
+      const data = doc.data() || {};
+
+      if (data.draft) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data.draft));
+        applySelectionsToForm(data.draft);
+      }
+
+      if (data.recap) {
+        localStorage.setItem(RECAP_KEY, JSON.stringify(data.recap));
+      }
+    }
+
+    async function sendToGoogleSheets(recapData) {
+      if (!GOOGLE_SHEETS_WEBHOOK_URL) return;
+      const payload = {
+        mise: recapData.mise.join(" | "),
+        entree: recapData.entree.join(" | "),
+        plat: recapData.plat.join(" | "),
+        dessert: recapData.dessert.join(" | "),
+        submittedAt: new Date().toISOString(),
+        page: window.location.href,
+        statut: GOOGLE_SHEETS_DEFAULT_STATUS
+      };
+
+      try {
+        const request = fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload),
+          keepalive: true
+        });
+
+        await Promise.race([request, new Promise((resolve) => setTimeout(resolve, 1200))]);
+      } catch {
+      }
+    }
+
+    async function validateMenu() {
+      const data = getCurrentSelections();
+      if (!allStepsValid(data)) {
+        alert("Merci de choisir entre 1 et 2 options dans chaque catégorie.");
+        return;
+      }
+
+      try {
+        await sendToGoogleSheets(data);
+        await syncRecapToCloud(data);
+      } catch {
+      } finally {
+        localStorage.setItem(RECAP_KEY, JSON.stringify(data));
+        sessionStorage.setItem(RECAP_KEY, JSON.stringify(data));
+        window.location.href = "recap.html";
+      }
+    }
+
+    document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+      checkbox.addEventListener("change", () => {
+        enforceMaxSelection(checkbox.name, checkbox);
+        saveDraftLocalAndCloud();
+      });
+    });
+
+    document.getElementById("prevBtn").addEventListener("click", () => showStep(currentStepIndex - 1));
+    document.getElementById("nextBtn").addEventListener("click", () => {
+      if (!isStepComplete(currentStepIndex)) {
+        alert("Choisis 1 ou 2 options pour continuer.");
+        return;
+      }
+      showStep(currentStepIndex + 1);
+    });
+    document.getElementById("validateBtn").addEventListener("click", validateMenu);
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      await auth.signOut();
+      window.location.href = "index.html";
+    });
+
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      if ((user.email || "").toLowerCase() !== SINGLE_USER_EMAIL.toLowerCase()) {
+        await auth.signOut();
+        window.location.href = "index.html";
+        return;
+      }
+
+      currentUserId = user.uid;
+      document.getElementById("userStatus").textContent = `Connectée : ${user.email}`;
+
+      restoreDraftLocal();
+      try {
+        await loadCloudState();
+      } catch {
+      }
+
+      const selections = getCurrentSelections();
+      updatePreview(selections);
+      const firstIncomplete = STEP_FIELDS.findIndex((_, i) => !isStepComplete(i));
+      showStep(firstIncomplete === -1 ? STEP_FIELDS.length - 1 : firstIncomplete);
+    });
+  </script>
+</body>
+</html>
