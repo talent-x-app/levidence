@@ -1,0 +1,7 @@
+node_modules/
+
+service-account.json
+*.service-account.json
+*firebase-adminsdk*.json
+
+carotte-b757f-firebase-adminsdk-fbsvc-105c1b999f.json

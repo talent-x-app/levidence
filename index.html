@@ -32,6 +32,25 @@ body {
   display: grid;
   place-items: center;
   padding: 24px;
+  overflow-x: hidden;
+}
+
+.heart {
+  position: fixed;
+  bottom: -40px;
+  color: rgba(255, 170, 210, 0.82);
+  animation: floatUp linear forwards;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 16px rgba(255, 160, 210, 0.85));
+  text-shadow: 0 0 18px rgba(255, 160, 210, 0.9);
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
 }
 
 @keyframes gradientMove {
@@ -41,6 +60,8 @@ body {
 }
 
 .card {
+  position: relative;
+  z-index: 2;
   width: min(520px, 100%);
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -119,15 +140,28 @@ h1 {
     <input id="passwordInput" class="field" type="password" placeholder="Mot de passe">
     <button id="loginBtn" class="btn" type="button">Se connecter</button>
 
-    <p id="status" class="status">Identifiants attendus : carotte / mot de passe Firebase.</p>
+    <p id="status" class="status">Identifiants attendus : carotte / uma123.</p>
     <p class="help">Le login est insensible à la casse.</p>
   </section>
 
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
   <script>
+    function createHearts() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = Math.random() > 0.5 ? "❤" : "💖";
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.fontSize = `${18 + Math.random() * 20}px`;
+      heart.style.animationDuration = `${7 + Math.random() * 6}s`;
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 15000);
+    }
+
+    setInterval(createHearts, 420);
+
     const SINGLE_LOGIN = "carotte";
-    const SINGLE_USER_EMAIL = "carotte@carotte-b757f.firebaseapp.com";
+    const SINGLE_USER_EMAIL = "carotte@s.com";
     const FIREBASE_CONFIG = {
       apiKey: "AIzaSyA4nUbl2aDHFdIvKt-UGkaC_P1456PXGUo",
       authDomain: "carotte-b757f.firebaseapp.com",

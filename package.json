@@ -1,0 +1,12 @@
+{
+  "name": "levidence",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "reset:user": "node scripts/reset-user.mjs"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.7.0"
+  }
+}

@@ -32,6 +32,25 @@ body {
   display: grid;
   place-items: center;
   padding: 24px;
+  overflow-x: hidden;
+}
+
+.heart {
+  position: fixed;
+  bottom: -40px;
+  color: rgba(255, 170, 210, 0.82);
+  animation: floatUp linear forwards;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 16px rgba(255, 160, 210, 0.85));
+  text-shadow: 0 0 18px rgba(255, 160, 210, 0.9);
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
 }
 
 @keyframes gradientMove {
@@ -41,6 +60,8 @@ body {
 }
 
 .card {
+  position: relative;
+  z-index: 2;
   width: min(980px, 100%);
   background: var(--card);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -84,6 +105,11 @@ body {
   background: linear-gradient(45deg, var(--accent), var(--accent-2));
 }
 
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 h1 {
   font-family: 'Playfair Display', serif;
   font-size: 2.8rem;
@@ -93,6 +119,12 @@ h1 {
 .subtitle {
   color: var(--muted);
   margin: 10px 0 20px;
+}
+
+.lock-status {
+  margin: 6px 0 14px;
+  color: #f3b6d8;
+  font-size: 0.92rem;
 }
 
 .grid {
@@ -158,7 +190,23 @@ h1 {
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script>
-    const SINGLE_USER_EMAIL = "carotte@carotte-b757f.firebaseapp.com";
+    function createHearts() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = Math.random() > 0.5 ? "❤" : "💖";
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.fontSize = `${18 + Math.random() * 20}px`;
+      heart.style.animationDuration = `${7 + Math.random() * 6}s`;
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 15000);
+    }
+
+    setInterval(createHearts, 420);
+
+    const SINGLE_USER_EMAIL = "carotte@s.com";
+    const EDIT_DEADLINE = new Date(2026, 1, 13, 3, 20, 0);
+    const EDIT_DEADLINE_LABEL = "13 février à 03:20";
+    const LEGACY_RECAP_KEY = "menuRecap";
     const FIREBASE_CONFIG = {
       apiKey: "AIzaSyA4nUbl2aDHFdIvKt-UGkaC_P1456PXGUo",
       authDomain: "carotte-b757f.firebaseapp.com",
@@ -167,13 +215,16 @@ h1 {
     };
 
     const recapCard = document.getElementById("recapCard");
-    const localRecap = (() => {
-      try {
-        return JSON.parse(localStorage.getItem("menuRecap") || sessionStorage.getItem("menuRecap") || "null");
-      } catch {
-        return null;
-      }
-    })();
+    let localRecap = null;
+
+    function getRecapStorageKey(uid) {
+      return `menuRecap:${uid}`;
+    }
+
+    function clearLegacyRecap() {
+      localStorage.removeItem(LEGACY_RECAP_KEY);
+      sessionStorage.removeItem(LEGACY_RECAP_KEY);
+    }
 
     function escapeHtml(value) {
       return String(value)
@@ -190,6 +241,10 @@ h1 {
       return entries.map((entry) => `<p class="choice">• ${escapeHtml(entry)}</p>`).join("");
     }
 
+    function isEditingLocked() {
+      return new Date() >= EDIT_DEADLINE;
+    }
+
     function renderEmpty() {
       recapCard.innerHTML = `
         <div class="top">
@@ -202,16 +257,25 @@ h1 {
     }
 
     function renderRecap(data, email = "") {
+      const lockMessage = isEditingLocked()
+        ? `Modifications fermées depuis le ${EDIT_DEADLINE_LABEL}.`
+        : `Modifications possibles jusqu’au ${EDIT_DEADLINE_LABEL}.`;
+
+      const topAction = isEditingLocked()
+        ? `<button class="btn" type="button" disabled>Changer de menu</button>`
+        : `<a class="btn" href="menu.html">Changer de menu</a>`;
+
       recapCard.innerHTML = `
         <div class="top">
           <span class="badge">Réservation confirmée</span>
           <div>
-            <a class="btn" href="menu.html">Changer de menu</a>
+            ${topAction}
             <button class="btn" id="logoutBtn" type="button" style="margin-left:8px;">Se déconnecter</button>
           </div>
         </div>
         <h1>Notre Menu</h1>
-        <p class="subtitle">Compte : ${escapeHtml(email || SINGLE_USER_EMAIL)} · Rendez-vous le 14 février à 21h.</p>
+        <p class="subtitle">Rendez-vous le 14 février à 21h.</p>
+        <p class="lock-status">${lockMessage}</p>
         <div class="grid">
           <article class="item"><p class="label">Mise en bouche</p>${lines(data.mise)}</article>
           <article class="item"><p class="label">Entrée</p>${lines(data.entree)}</article>
@@ -236,11 +300,7 @@ h1 {
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    if (localRecap) {
-      renderRecap(localRecap);
-    } else {
-      renderEmpty();
-    }
+    renderEmpty();
 
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
@@ -254,17 +314,51 @@ h1 {
         return;
       }
 
+      const recapKey = getRecapStorageKey(user.uid);
+      try {
+        localRecap = JSON.parse(localStorage.getItem(recapKey) || sessionStorage.getItem(recapKey) || "null");
+      } catch {
+        localRecap = null;
+      }
+
+      clearLegacyRecap();
+
+      if (localRecap) {
+        try {
+          renderRecap(localRecap, user.email || "");
+        } catch (error) {
+          console.error("Erreur rendu recap local:", error);
+          renderEmpty();
+        }
+      } else {
+        renderEmpty();
+      }
+
       try {
         const doc = await db.collection("levidenceUsers").doc(user.uid).get();
         const cloudRecap = doc.exists ? (doc.data()?.recap || null) : null;
         if (cloudRecap) {
-          localStorage.setItem("menuRecap", JSON.stringify(cloudRecap));
-          renderRecap(cloudRecap, user.email || "");
-        } else if (localRecap) {
-          renderRecap(localRecap, user.email || "");
+          localStorage.setItem(recapKey, JSON.stringify(cloudRecap));
+          sessionStorage.setItem(recapKey, JSON.stringify(cloudRecap));
+          try {
+            renderRecap(cloudRecap, user.email || "");
+          } catch (error) {
+            console.error("Erreur rendu recap cloud:", error);
+            renderEmpty();
+          }
+        } else {
+          localStorage.removeItem(recapKey);
+          sessionStorage.removeItem(recapKey);
+          renderEmpty();
         }
       } catch {
-        if (localRecap) renderRecap(localRecap, user.email || "");
+        if (localRecap) {
+          try {
+            renderRecap(localRecap, user.email || "");
+          } catch {
+            renderEmpty();
+          }
+        }
       }
     });
   </script>

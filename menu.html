@@ -30,6 +30,25 @@ body {
   background-size: 180% 180%;
   animation: gradientMove 18s ease infinite;
   padding: 24px;
+  overflow-x: hidden;
+}
+
+.heart {
+  position: fixed;
+  bottom: -40px;
+  color: rgba(255, 170, 210, 0.82);
+  animation: floatUp linear forwards;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 16px rgba(255, 160, 210, 0.85));
+  text-shadow: 0 0 18px rgba(255, 160, 210, 0.9);
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
 }
 
 @keyframes gradientMove {
@@ -39,6 +58,8 @@ body {
 }
 
 .wrap {
+  position: relative;
+  z-index: 2;
   max-width: 1020px;
   margin: 0 auto;
 }
@@ -60,6 +81,12 @@ h1 {
 
 .user {
   color: var(--muted);
+}
+
+.lock-status {
+  margin-top: 6px;
+  color: #f3b6d8;
+  font-size: 0.92rem;
 }
 
 .btn {
@@ -154,6 +181,30 @@ input[type="checkbox"] {
   display: block;
 }
 
+.lock-mode .progress,
+.lock-mode .nav {
+  display: none;
+}
+
+.lock-mode .step {
+  display: block !important;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.lock-mode .step:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.choice-selected {
+  border-color: rgba(95, 220, 140, 0.55) !important;
+  background: rgba(86, 198, 124, 0.2) !important;
+  color: #dcffe8;
+}
+
 .nav {
   margin-top: 18px;
   display: flex;
@@ -185,6 +236,14 @@ input[type="checkbox"] {
   color: var(--accent);
 }
 
+.preview-values {
+  margin-top: 4px;
+}
+
+.preview-line {
+  margin: 4px 0;
+}
+
 .placeholder {
   color: var(--muted);
   font-style: italic;
@@ -203,6 +262,7 @@ input[type="checkbox"] {
       <div>
         <h1>Restaurant L’Évidence</h1>
         <p class="user" id="userStatus">Connexion en cours...</p>
+        <p class="lock-status" id="lockStatus"></p>
       </div>
       <button id="logoutBtn" class="btn" type="button">Se déconnecter</button>
     </div>
@@ -263,10 +323,10 @@ input[type="checkbox"] {
 
       <aside class="card">
         <p class="preview-title">Notre menu en direct</p>
-        <p class="preview-item"><strong>Mise en bouche :</strong> <span id="preview-mise" class="placeholder">Aucune sélection</span></p>
-        <p class="preview-item"><strong>Entrée :</strong> <span id="preview-entree" class="placeholder">Aucune sélection</span></p>
-        <p class="preview-item"><strong>Plat :</strong> <span id="preview-plat" class="placeholder">Aucune sélection</span></p>
-        <p class="preview-item"><strong>Dessert :</strong> <span id="preview-dessert" class="placeholder">Aucune sélection</span></p>
+        <div class="preview-item"><strong>Mise en bouche :</strong> <div id="preview-mise" class="preview-values placeholder">Aucune sélection</div></div>
+        <div class="preview-item"><strong>Entrée :</strong> <div id="preview-entree" class="preview-values placeholder">Aucune sélection</div></div>
+        <div class="preview-item"><strong>Plat :</strong> <div id="preview-plat" class="preview-values placeholder">Aucune sélection</div></div>
+        <div class="preview-item"><strong>Dessert :</strong> <div id="preview-dessert" class="preview-values placeholder">Aucune sélection</div></div>
       </aside>
     </div>
   </main>
@@ -275,12 +335,26 @@ input[type="checkbox"] {
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
   <script>
-    const STORAGE_KEY = "menuDraft";
-    const RECAP_KEY = "menuRecap";
+    function createHearts() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = Math.random() > 0.5 ? "❤" : "💖";
+      heart.style.left = `${Math.random() * 100}vw`;
+      heart.style.fontSize = `${18 + Math.random() * 20}px`;
+      heart.style.animationDuration = `${7 + Math.random() * 6}s`;
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 15000);
+    }
+
+    setInterval(createHearts, 420);
+
+    const LEGACY_STORAGE_KEY = "menuDraft";
+    const LEGACY_RECAP_KEY = "menuRecap";
     const GOOGLE_SHEETS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyTdT2dGBpobJz1DpD9mBb740nciu_4CXrFJZFN29DfsepYOvMycjREln5NnvWAFzR7/exec";
     const GOOGLE_SHEETS_DEFAULT_STATUS = "nouvelle";
+    const EDIT_DEADLINE = new Date(2026, 1, 13, 3, 20, 0);
 
-    const SINGLE_USER_EMAIL = "carotte@carotte-b757f.firebaseapp.com";
+    const SINGLE_USER_EMAIL = "carotte@s.com";
     const FIREBASE_CONFIG = {
       apiKey: "AIzaSyA4nUbl2aDHFdIvKt-UGkaC_P1456PXGUo",
       authDomain: "carotte-b757f.firebaseapp.com",
@@ -293,6 +367,65 @@ input[type="checkbox"] {
 
     let currentStepIndex = 0;
     let currentUserId = null;
+
+    function isEditingLocked() {
+      return new Date() >= EDIT_DEADLINE;
+    }
+
+    function formatDeadline() {
+      return EDIT_DEADLINE.toLocaleString("fr-FR", {
+        day: "2-digit",
+        month: "long",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function applyDeadlineLockUI() {
+      const lockStatus = document.getElementById("lockStatus");
+      if (!lockStatus) return;
+
+      if (isEditingLocked()) {
+        document.body.classList.add("lock-mode");
+        lockStatus.textContent = `Modifications fermées depuis le ${formatDeadline()}.`;
+        document.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+          input.disabled = true;
+        });
+      } else {
+        document.body.classList.remove("lock-mode");
+        lockStatus.textContent = `Modifications possibles jusqu’au ${formatDeadline()}.`;
+      }
+
+      updateLockedSelectionStyles();
+    }
+
+    function updateLockedSelectionStyles() {
+      const locked = isEditingLocked();
+      document.querySelectorAll(".step label").forEach((label) => {
+        const input = label.querySelector('input[type="checkbox"]');
+        if (!input) return;
+
+        if (locked && input.checked) {
+          label.classList.add("choice-selected");
+        } else {
+          label.classList.remove("choice-selected");
+        }
+      });
+    }
+
+    function getDraftStorageKey() {
+      return currentUserId ? `menuDraft:${currentUserId}` : LEGACY_STORAGE_KEY;
+    }
+
+    function getRecapStorageKey() {
+      return currentUserId ? `menuRecap:${currentUserId}` : LEGACY_RECAP_KEY;
+    }
+
+    function clearLegacyStorage() {
+      localStorage.removeItem(LEGACY_STORAGE_KEY);
+      localStorage.removeItem(LEGACY_RECAP_KEY);
+      sessionStorage.removeItem(LEGACY_RECAP_KEY);
+    }
 
     firebase.initializeApp(FIREBASE_CONFIG);
     const auth = firebase.auth();
@@ -311,8 +444,19 @@ input[type="checkbox"] {
     function setPreview(id, value) {
       const el = document.getElementById(id);
       if (!el) return;
+
+      const escapeHtml = (text) => String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
       if (value.length) {
-        el.textContent = value.join(" • ");
+        el.innerHTML = value
+          .slice(0, 2)
+          .map((entry) => `<p class="preview-line">• ${escapeHtml(entry)}</p>`)
+          .join("");
         el.classList.remove("placeholder");
       } else {
         el.textContent = "Aucune sélection";
@@ -360,6 +504,12 @@ input[type="checkbox"] {
       validate.style.display = isLast ? "inline-flex" : "none";
       validate.disabled = !allStepsValid(selections);
 
+      if (isEditingLocked()) {
+        prev.disabled = true;
+        next.disabled = true;
+        validate.disabled = true;
+      }
+
       stepText.textContent = `Étape ${currentStepIndex + 1} sur ${STEP_FIELDS.length} • ${STEP_LABELS[currentStepIndex]}`;
       bar.style.width = `${((currentStepIndex + 1) / STEP_FIELDS.length) * 100}%`;
     }
@@ -400,17 +550,41 @@ input[type="checkbox"] {
       });
     }
 
+    function resetLocalState() {
+      localStorage.removeItem(getDraftStorageKey());
+      localStorage.removeItem(getRecapStorageKey());
+      sessionStorage.removeItem(getRecapStorageKey());
+      clearLegacyStorage();
+
+      applySelectionsToForm({
+        mise: [],
+        entree: [],
+        plat: [],
+        dessert: []
+      });
+    }
+
     function saveDraftLocalAndCloud() {
+      if (isEditingLocked()) return;
       const selections = getCurrentSelections();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(selections));
+      localStorage.setItem(getDraftStorageKey(), JSON.stringify(selections));
       updatePreview(selections);
       updateNavigation();
+      updateLockedSelectionStyles();
       syncDraftToCloud(selections).catch(() => {});
+    }
+
+    function refreshFromCurrentSelections() {
+      const selections = getCurrentSelections();
+      updatePreview(selections);
+      updateNavigation();
+      updateLockedSelectionStyles();
+      return selections;
     }
 
     function restoreDraftLocal() {
       try {
-        const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+        const parsed = JSON.parse(localStorage.getItem(getDraftStorageKey()) || "null");
         if (!parsed) return;
         applySelectionsToForm(parsed);
       } catch {
@@ -420,17 +594,28 @@ input[type="checkbox"] {
     async function loadCloudState() {
       if (!currentUserId) return;
       const doc = await db.collection("levidenceUsers").doc(currentUserId).get();
-      if (!doc.exists) return;
+      if (!doc.exists) {
+        resetLocalState();
+        return;
+      }
       const data = doc.data() || {};
 
       if (data.draft) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data.draft));
+        localStorage.setItem(getDraftStorageKey(), JSON.stringify(data.draft));
         applySelectionsToForm(data.draft);
+      } else {
+        localStorage.removeItem(getDraftStorageKey());
+        applySelectionsToForm({ mise: [], entree: [], plat: [], dessert: [] });
       }
 
       if (data.recap) {
-        localStorage.setItem(RECAP_KEY, JSON.stringify(data.recap));
+        localStorage.setItem(getRecapStorageKey(), JSON.stringify(data.recap));
+      } else {
+        localStorage.removeItem(getRecapStorageKey());
+        sessionStorage.removeItem(getRecapStorageKey());
       }
+
+      clearLegacyStorage();
     }
 
     async function sendToGoogleSheets(recapData) {
@@ -460,25 +645,31 @@ input[type="checkbox"] {
     }
 
     async function validateMenu() {
+      if (isEditingLocked()) {
+        alert("Les modifications ne sont plus possibles.");
+        return;
+      }
+
       const data = getCurrentSelections();
       if (!allStepsValid(data)) {
         alert("Merci de choisir entre 1 et 2 options dans chaque catégorie.");
         return;
       }
 
-      try {
-        await sendToGoogleSheets(data);
-        await syncRecapToCloud(data);
-      } catch {
-      } finally {
-        localStorage.setItem(RECAP_KEY, JSON.stringify(data));
-        sessionStorage.setItem(RECAP_KEY, JSON.stringify(data));
-        window.location.href = "recap.html";
-      }
+      localStorage.setItem(getRecapStorageKey(), JSON.stringify(data));
+      sessionStorage.setItem(getRecapStorageKey(), JSON.stringify(data));
+
+      Promise.allSettled([
+        sendToGoogleSheets(data),
+        syncRecapToCloud(data)
+      ]).catch(() => {});
+
+      window.location.href = "recap.html";
     }
 
     document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
       checkbox.addEventListener("change", () => {
+        if (isEditingLocked()) return;
         enforceMaxSelection(checkbox.name, checkbox);
         saveDraftLocalAndCloud();
       });
@@ -499,6 +690,10 @@ input[type="checkbox"] {
       window.location.href = "index.html";
     });
 
+    applyDeadlineLockUI();
+    showStep(0);
+    refreshFromCurrentSelections();
+
     auth.onAuthStateChanged(async (user) => {
       if (!user) {
         window.location.href = "index.html";
@@ -512,7 +707,8 @@ input[type="checkbox"] {
       }
 
       currentUserId = user.uid;
-      document.getElementById("userStatus").textContent = `Connectée : ${user.email}`;
+      document.getElementById("userStatus").textContent = `Connectée : Carotte`;
+      clearLegacyStorage();
 
       restoreDraftLocal();
       try {
@@ -520,10 +716,11 @@ input[type="checkbox"] {
       } catch {
       }
 
-      const selections = getCurrentSelections();
-      updatePreview(selections);
+      const selections = refreshFromCurrentSelections();
       const firstIncomplete = STEP_FIELDS.findIndex((_, i) => !isStepComplete(i));
       showStep(firstIncomplete === -1 ? STEP_FIELDS.length - 1 : firstIncomplete);
+
+      localStorage.setItem(getDraftStorageKey(), JSON.stringify(selections));
     });
   </script>
 </body>

@@ -1,5 +1,39 @@
 # levidence
 
+## Reset admin en 1 clic (hors interface)
+
+Objectif : remettre l’utilisateur à l’état "première connexion" sans passer par l’UI.
+
+### 1) Préparer une clé service Firebase
+
+- Firebase Console → `Project settings` → `Service accounts`
+- `Generate new private key`
+- Sauvegarde le fichier JSON (ex: `service-account.json`) à la racine du projet
+
+### 2) Installer la dépendance admin
+
+```bash
+npm install
+```
+
+### 3) Lancer le reset
+
+```bash
+FIREBASE_SERVICE_ACCOUNT_PATH=./service-account.json npm run reset:user
+```
+
+Ce script :
+
+- retrouve l’utilisateur `carotte@carotte-b757f.firebaseapp.com`
+- supprime `levidenceUsers/{uid}` dans Firestore
+- force un retour à l’état initial au prochain login
+
+### Variables optionnelles
+
+- `FIREBASE_PROJECT_ID` (par défaut: `carotte-b757f`)
+- `RESET_USER_EMAIL` (par défaut: `carotte@carotte-b757f.firebaseapp.com`)
+- `RESET_COLLECTION` (par défaut: `levidenceUsers`)
+
 ## Connexion et synchro multi-appareils (Firebase)
 
 Objectif : se connecter en email/mot de passe et retrouver brouillon + récap sur un autre appareil.
