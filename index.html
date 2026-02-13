@@ -193,9 +193,15 @@ label:hover {
     transform: translateX(5px);
 }
 
-input[type="radio"] {
+input[type="checkbox"] {
     accent-color: var(--accent);
     margin-right: 10px;
+}
+
+.step-hint {
+    color: var(--muted);
+    margin-bottom: 14px;
+    font-size: 0.95rem;
 }
 
 button {
@@ -388,38 +394,42 @@ setInterval(createHearts, 800);
 
 <div class="menu-step active" data-step="0" data-field="mise">
 <h2>Mise en bouche</h2>
-<label><input type="radio" name="mise" value="Le moment précis où tout a commencé à devenir évident entre nous.">Le moment précis où tout a commencé à devenir évident entre nous.</label>
-<label><input type="radio" name="mise" value="Ce que nous admirons le plus l’un chez l’autre.">Ce que nous admirons le plus l’un chez l’autre.</label>
-<label><input type="radio" name="mise" value="Le souvenir le plus drôle que nous avons vécu ensemble.">Le souvenir le plus drôle que nous avons vécu ensemble.</label>
-<label><input type="radio" name="mise" value="Une vérité que nous n’avons jamais formulée à voix haute.">Une vérité que nous n’avons jamais formulée à voix haute.</label>
-<label><input type="radio" name="mise" value="Ce que notre rencontre nous a appris sur nous-mêmes.">Ce que notre rencontre nous a appris sur nous-mêmes.</label>
+<p class="step-hint">Choisis entre 1 et 2 options.</p>
+<label><input type="checkbox" name="mise" value="Le moment précis où tout a commencé à devenir évident entre nous.">Le moment précis où tout a commencé à devenir évident entre nous.</label>
+<label><input type="checkbox" name="mise" value="Ce que nous admirons le plus l’un chez l’autre.">Ce que nous admirons le plus l’un chez l’autre.</label>
+<label><input type="checkbox" name="mise" value="Le souvenir le plus drôle que nous avons vécu ensemble.">Le souvenir le plus drôle que nous avons vécu ensemble.</label>
+<label><input type="checkbox" name="mise" value="Une vérité que nous n’avons jamais formulée à voix haute.">Une vérité que nous n’avons jamais formulée à voix haute.</label>
+<label><input type="checkbox" name="mise" value="Ce que notre rencontre nous a appris sur nous-mêmes.">Ce que notre rencontre nous a appris sur nous-mêmes.</label>
 </div>
 
 <div class="menu-step" data-step="1" data-field="entree">
 <h2>Entrée</h2>
-<label><input type="radio" name="entree" value="Ce qui nous a donné envie de rester et de construire.">Ce qui nous a donné envie de rester et de construire.</label>
-<label><input type="radio" name="entree" value="Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.">Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.</label>
-<label><input type="radio" name="entree" value="Le type de couple que nous voulons devenir.">Le type de couple que nous voulons devenir.</label>
-<label><input type="radio" name="entree" value="Si notre histoire était un film, quel serait son titre ?">Si notre histoire était un film, quel serait son titre ?</label>
-<label><input type="radio" name="entree" value="Ce que nous nous apportons mutuellement et qui nous fait grandir.">Ce que nous nous apportons mutuellement et qui nous fait grandir.</label>
+<p class="step-hint">Choisis entre 1 et 2 options.</p>
+<label><input type="checkbox" name="entree" value="Ce qui nous a donné envie de rester et de construire.">Ce qui nous a donné envie de rester et de construire.</label>
+<label><input type="checkbox" name="entree" value="Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.">Nos peurs respectives et la manière dont nous pouvons les apaiser ensemble.</label>
+<label><input type="checkbox" name="entree" value="Le type de couple que nous voulons devenir.">Le type de couple que nous voulons devenir.</label>
+<label><input type="checkbox" name="entree" value="Si notre histoire était un film, quel serait son titre ?">Si notre histoire était un film, quel serait son titre ?</label>
+<label><input type="checkbox" name="entree" value="Ce que nous nous apportons mutuellement et qui nous fait grandir.">Ce que nous nous apportons mutuellement et qui nous fait grandir.</label>
 </div>
 
 <div class="menu-step" data-step="2" data-field="plat">
 <h2>Plat</h2>
-<label><input type="radio" name="plat" value="Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.">Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.</label>
-<label><input type="radio" name="plat" value="Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.">Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.</label>
-<label><input type="radio" name="plat" value="Les valeurs que nous voulons transmettre autour de nous.">Les valeurs que nous voulons transmettre autour de nous.</label>
-<label><input type="radio" name="plat" value="Les règles d’or qui protégeront notre amour dans le temps.">Les règles d’or qui protégeront notre amour dans le temps.</label>
-<label><input type="radio" name="plat" value="La manière dont nous voulons gérer les conflits et évoluer ensemble.">La manière dont nous voulons gérer les conflits et évoluer ensemble.</label>
+<p class="step-hint">Choisis entre 1 et 2 options.</p>
+<label><input type="checkbox" name="plat" value="Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.">Les piliers invisibles de notre amour : confiance, loyauté, douceur, ambition commune.</label>
+<label><input type="checkbox" name="plat" value="Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.">Les efforts que nous sommes prêts à faire pour que notre histoire réussisse.</label>
+<label><input type="checkbox" name="plat" value="Les valeurs que nous voulons transmettre autour de nous.">Les valeurs que nous voulons transmettre autour de nous.</label>
+<label><input type="checkbox" name="plat" value="Les règles d’or qui protégeront notre amour dans le temps.">Les règles d’or qui protégeront notre amour dans le temps.</label>
+<label><input type="checkbox" name="plat" value="La manière dont nous voulons gérer les conflits et évoluer ensemble.">La manière dont nous voulons gérer les conflits et évoluer ensemble.</label>
 </div>
 
 <div class="menu-step" data-step="3" data-field="dessert">
 <h2>Dessert</h2>
-<label><input type="radio" name="dessert" value="Notre vie dans cinq ans, racontée comme si elle existait déjà.">Notre vie dans cinq ans, racontée comme si elle existait déjà.</label>
-<label><input type="radio" name="dessert" value="Le rêve le plus fou que nous pourrions réaliser ensemble.">Le rêve le plus fou que nous pourrions réaliser ensemble.</label>
-<label><input type="radio" name="dessert" value="La maison idéale, la ville et l’ambiance de notre futur quotidien.">La maison idéale, la ville et l’ambiance de notre futur quotidien.</label>
-<label><input type="radio" name="dessert" value="Le pacte symbolique que nous décidons de sceller ce soir.">Le pacte symbolique que nous décidons de sceller ce soir.</label>
-<label><input type="radio" name="dessert" value="La promesse que nous choisissons de nous faire pour l’année à venir.">La promesse que nous choisissons de nous faire pour l’année à venir.</label>
+<p class="step-hint">Choisis entre 1 et 2 options.</p>
+<label><input type="checkbox" name="dessert" value="Notre vie dans cinq ans, racontée comme si elle existait déjà.">Notre vie dans cinq ans, racontée comme si elle existait déjà.</label>
+<label><input type="checkbox" name="dessert" value="Le rêve le plus fou que nous pourrions réaliser ensemble.">Le rêve le plus fou que nous pourrions réaliser ensemble.</label>
+<label><input type="checkbox" name="dessert" value="La maison idéale, la ville et l’ambiance de notre futur quotidien.">La maison idéale, la ville et l’ambiance de notre futur quotidien.</label>
+<label><input type="checkbox" name="dessert" value="Le pacte symbolique que nous décidons de sceller ce soir.">Le pacte symbolique que nous décidons de sceller ce soir.</label>
+<label><input type="checkbox" name="dessert" value="La promesse que nous choisissons de nous faire pour l’année à venir.">La promesse que nous choisissons de nous faire pour l’année à venir.</label>
 </div>
 
 <div class="wizard-nav">
@@ -454,11 +464,13 @@ function enterSite() {
 }
 
 function getCurrentSelections() {
+    const getCheckedValues = (field) => Array.from(document.querySelectorAll(`input[name="${field}"]:checked`)).map((input) => input.value);
+
     return {
-        mise: document.querySelector('input[name="mise"]:checked')?.value || "",
-        entree: document.querySelector('input[name="entree"]:checked')?.value || "",
-        plat: document.querySelector('input[name="plat"]:checked')?.value || "",
-        dessert: document.querySelector('input[name="dessert"]:checked')?.value || ""
+        mise: getCheckedValues("mise"),
+        entree: getCheckedValues("entree"),
+        plat: getCheckedValues("plat"),
+        dessert: getCheckedValues("dessert")
     };
 }
 
@@ -466,8 +478,10 @@ function setPreviewValue(id, value) {
     const element = document.getElementById(id);
     if (!element) return;
 
-    if (value) {
-        element.textContent = value;
+    const entries = Array.isArray(value) ? value : [];
+
+    if (entries.length) {
+        element.textContent = entries.join(" • ");
         element.classList.remove("placeholder");
     } else {
         element.textContent = "Aucune sélection";
@@ -486,13 +500,22 @@ function updateValidateButtonState(data) {
     const validateButton = document.getElementById("validateBtn");
     if (!validateButton) return;
 
-    const isComplete = Boolean(data.mise && data.entree && data.plat && data.dessert);
+    const isComplete = STEP_FIELDS.every((field) => data[field].length >= 1 && data[field].length <= 2);
     validateButton.disabled = !isComplete;
 }
 
 function isStepComplete(stepIndex) {
     const field = STEP_FIELDS[stepIndex];
-    return Boolean(document.querySelector(`input[name="${field}"]:checked`));
+    const checkedCount = document.querySelectorAll(`input[name="${field}"]:checked`).length;
+    return checkedCount >= 1 && checkedCount <= 2;
+}
+
+function enforceMaxSelection(field, changedInput) {
+    const checkedInputs = document.querySelectorAll(`input[name="${field}"]:checked`);
+    if (checkedInputs.length <= 2) return;
+
+    changedInput.checked = false;
+    alert("Tu peux choisir au maximum 2 options par étape.");
 }
 
 function updateWizardNavigation() {
@@ -539,9 +562,11 @@ function restoreDraftSelections() {
 
     const parsed = JSON.parse(draft);
     ["mise", "entree", "plat", "dessert"].forEach((field) => {
-        if (!parsed[field]) return;
-        const input = document.querySelector(`input[name="${field}"][value="${CSS.escape(parsed[field])}"]`);
-        if (input) input.checked = true;
+        const values = Array.isArray(parsed[field]) ? parsed[field].slice(0, 2) : [];
+        values.forEach((value) => {
+            const input = document.querySelector(`input[name="${field}"][value="${CSS.escape(value)}"]`);
+            if (input) input.checked = true;
+        });
     });
 
     const selections = getCurrentSelections();
@@ -565,7 +590,10 @@ async function sendToGoogleSheets(recapData) {
     if (!GOOGLE_SHEETS_WEBHOOK_URL) return;
 
     const payload = {
-        ...recapData,
+        mise: recapData.mise.join(" | "),
+        entree: recapData.entree.join(" | "),
+        plat: recapData.plat.join(" | "),
+        dessert: recapData.dessert.join(" | "),
         submittedAt: new Date().toISOString(),
         page: window.location.href,
         statut: GOOGLE_SHEETS_DEFAULT_STATUS
@@ -574,9 +602,9 @@ async function sendToGoogleSheets(recapData) {
     try {
         const request = fetch(GOOGLE_SHEETS_WEBHOOK_URL, {
             method: "POST",
-            mode: "cors",
+            mode: "no-cors",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "text/plain;charset=utf-8"
             },
             body: JSON.stringify(payload),
             keepalive: true
@@ -592,13 +620,14 @@ async function sendToGoogleSheets(recapData) {
 }
 
 function generateMenu() {
-    const mise = document.querySelector('input[name="mise"]:checked');
-    const entree = document.querySelector('input[name="entree"]:checked');
-    const plat = document.querySelector('input[name="plat"]:checked');
-    const dessert = document.querySelector('input[name="dessert"]:checked');
+    const recapData = getCurrentSelections();
+    const hasInvalidStep = STEP_FIELDS.some((field) => {
+        const count = recapData[field].length;
+        return count < 1 || count > 2;
+    });
 
-    if (!mise || !entree || !plat || !dessert) {
-        alert("Merci de choisir une option dans chaque catégorie.");
+    if (hasInvalidStep) {
+        alert("Merci de choisir entre 1 et 2 options dans chaque catégorie.");
         return;
     }
 
@@ -606,13 +635,6 @@ function generateMenu() {
     overlay.style.opacity = "1";
 
     setTimeout(async () => {
-        const recapData = {
-            mise: mise.value,
-            entree: entree.value,
-            plat: plat.value,
-            dessert: dessert.value
-        };
-
         await sendToGoogleSheets(recapData);
         localStorage.setItem(RECAP_KEY, JSON.stringify(recapData));
         sessionStorage.setItem(RECAP_KEY, JSON.stringify(recapData));
@@ -634,16 +656,11 @@ document.querySelectorAll(".reveal").forEach((section) => {
     revealObserver.observe(section);
 });
 
-document.querySelectorAll('input[type="radio"]').forEach((radio) => {
-    radio.addEventListener("change", () => {
+document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+        enforceMaxSelection(checkbox.name, checkbox);
         saveDraftSelections();
-
-        const selectedStep = STEP_FIELDS.indexOf(radio.name);
-        if (selectedStep === currentStepIndex && currentStepIndex < STEP_FIELDS.length - 1) {
-            setTimeout(() => {
-                showStep(currentStepIndex + 1);
-            }, 220);
-        }
+        updateWizardNavigation();
     });
 });
 

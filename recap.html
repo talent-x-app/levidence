@@ -48,6 +48,20 @@ body {
     backdrop-filter: blur(10px);
     box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
     animation: fadeIn 0.8s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 260px;
+    height: 260px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(216, 138, 182, 0.25), transparent 70%);
+    pointer-events: none;
 }
 
 @keyframes fadeIn {
@@ -60,11 +74,63 @@ h1 {
     font-size: 3rem;
     color: var(--accent);
     margin-bottom: 10px;
+    line-height: 1.1;
 }
 
 .subtitle {
     color: var(--muted);
-    margin-bottom: 30px;
+    margin-bottom: 26px;
+}
+
+.top-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #1a1209;
+    background: linear-gradient(45deg, var(--accent), var(--accent-2));
+    border-radius: 999px;
+    padding: 8px 14px;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.menu-block {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.menu-label {
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.menu-value {
+    line-height: 1.55;
+    color: var(--ink);
+}
+
+.choice-line {
+    margin: 6px 0;
+}
+
+.empty-state {
+    border: 1px dashed rgba(255, 255, 255, 0.26);
+    border-radius: 16px;
+    padding: 16px;
+    color: var(--muted);
+    margin-bottom: 20px;
 }
 
 .menu-item {
@@ -110,6 +176,27 @@ a.btn {
     font-weight: 600;
     color: #1a1209;
     background: linear-gradient(45deg, var(--accent), var(--accent-2));
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+a.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.34);
+}
+
+@media (max-width: 760px) {
+    .card {
+        padding: 28px;
+    }
+
+    h1 {
+        font-size: 2.4rem;
+    }
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 </head>
@@ -131,19 +218,53 @@ if (recapRaw) {
 
 if (!recap) {
     recapCard.innerHTML = `
+        <span class="top-badge">Résumé du dîner</span>
         <h1>Notre Menu</h1>
-        <p class="subtitle">Aucune sélection trouvée pour le moment.</p>
+        <div class="empty-state">Aucune sélection trouvée pour le moment.</div>
         <a class="btn" href="index.html">Retour au menu</a>
     `;
 } else {
     const data = recap;
+    const escapeHtml = (value) => String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+    const formatSelection = (value) => {
+        if (Array.isArray(value)) {
+            const safeValues = value.slice(0, 2);
+            if (!safeValues.length) return "Aucune sélection";
+            return safeValues
+                .map((entry) => `<p class="choice-line">• ${escapeHtml(entry)}</p>`)
+                .join("");
+        }
+        return value ? `<p class="choice-line">• ${escapeHtml(value)}</p>` : "Aucune sélection";
+    };
+
     recapCard.innerHTML = `
+        <span class="top-badge">Réservation confirmée</span>
         <h1>Notre Menu</h1>
         <p class="subtitle">Rendez-vous le 14 février à 21h.</p>
-        <p class="menu-item"><strong>Mise en bouche :</strong> ${data.mise}</p>
-        <p class="menu-item"><strong>Entrée :</strong> ${data.entree}</p>
-        <p class="menu-item"><strong>Plat :</strong> ${data.plat}</p>
-        <p class="menu-item"><strong>Dessert :</strong> ${data.dessert}</p>
+        <div class="menu-grid">
+            <article class="menu-block">
+                <p class="menu-label">Mise en bouche</p>
+                <div class="menu-value">${formatSelection(data.mise)}</div>
+            </article>
+            <article class="menu-block">
+                <p class="menu-label">Entrée</p>
+                <div class="menu-value">${formatSelection(data.entree)}</div>
+            </article>
+            <article class="menu-block">
+                <p class="menu-label">Plat</p>
+                <div class="menu-value">${formatSelection(data.plat)}</div>
+            </article>
+            <article class="menu-block">
+                <p class="menu-label">Dessert</p>
+                <div class="menu-value">${formatSelection(data.dessert)}</div>
+            </article>
+        </div>
         <div class="footer">
             <p class="final-message">Et ce n’est que le début de notre histoire...</p>
             <div class="footer-actions">
