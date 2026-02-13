@@ -38,12 +38,12 @@ body {
 .heart {
   position: fixed;
   bottom: -40px;
-  color: rgba(255, 170, 210, 0.82);
+  color: rgba(255, 170, 210, 0.45);
   animation: floatUp linear forwards;
   pointer-events: none;
   z-index: 1;
-  filter: drop-shadow(0 0 16px rgba(255, 160, 210, 0.85));
-  text-shadow: 0 0 18px rgba(255, 160, 210, 0.9);
+  filter: drop-shadow(0 0 8px rgba(255, 160, 210, 0.35));
+  text-shadow: 0 0 10px rgba(255, 160, 210, 0.35);
 }
 
 @keyframes floatUp {
@@ -78,6 +78,13 @@ body {
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 16px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .badge {
@@ -177,9 +184,24 @@ h1 {
 }
 
 @media (max-width: 760px) {
-  .card { padding: 24px; }
+  body { padding: 14px; }
+  .card {
+    padding: 20px 16px;
+    border-radius: 18px;
+  }
   .grid { grid-template-columns: 1fr; }
-  h1 { font-size: 2.2rem; }
+  h1 { font-size: 2rem; }
+  .top {
+    align-items: stretch;
+  }
+  .actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .actions .btn {
+    width: 100%;
+  }
 }
 </style>
 </head>
@@ -195,17 +217,17 @@ h1 {
       heart.className = "heart";
       heart.textContent = Math.random() > 0.5 ? "❤" : "💖";
       heart.style.left = `${Math.random() * 100}vw`;
-      heart.style.fontSize = `${18 + Math.random() * 20}px`;
-      heart.style.animationDuration = `${7 + Math.random() * 6}s`;
+      heart.style.fontSize = `${12 + Math.random() * 10}px`;
+      heart.style.animationDuration = `${9 + Math.random() * 7}s`;
       document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 15000);
+      setTimeout(() => heart.remove(), 13000);
     }
 
-    setInterval(createHearts, 420);
+    setInterval(createHearts, 700);
 
-    const SINGLE_USER_EMAIL = "carotte@s.com";
-    const EDIT_DEADLINE = new Date(2026, 1, 13, 3, 30, 0);
-    const EDIT_DEADLINE_LABEL = "13 février à 03:30";
+    const SINGLE_USER_EMAIL = "carotte@saintvalentain.com";
+    const EDIT_DEADLINE = new Date(2026, 1, 13, 23, 59, 0);
+    const EDIT_DEADLINE_LABEL = "13 février à 23:59";
     const LEGACY_RECAP_KEY = "menuRecap";
     const FIREBASE_CONFIG = {
       apiKey: "AIzaSyA4nUbl2aDHFdIvKt-UGkaC_P1456PXGUo",
@@ -268,9 +290,9 @@ h1 {
       recapCard.innerHTML = `
         <div class="top">
           <span class="badge">Réservation confirmée</span>
-          <div>
+          <div class="actions">
             ${topAction}
-            <button class="btn" id="logoutBtn" type="button" style="margin-left:8px;">Se déconnecter</button>
+            <button class="btn" id="logoutBtn" type="button">Se déconnecter</button>
           </div>
         </div>
         <h1>Notre Menu</h1>
